@@ -36,3 +36,6 @@ instance/
 *.tmp
 *.temp
 logs/
+
+# private python scripts
+nsfw_folders.py
