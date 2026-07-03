@@ -1,0 +1,38 @@
+# SECRETS - NEVER commit these!
+.env
+.env.local
+.env.production
+secrets.json
+config.json
+
+# Python cache files (auto-generated)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment (huge, shouldn't be in git)
+venv/
+env/
+.venv/
+ENV/
+
+# Database files (if you use SQLite)
+*.db
+*.sqlite3
+*.sqlite
+instance/
+
+# IDE settings (personal preference)
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+logs/
