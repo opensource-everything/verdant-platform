@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        table {
+            margin: 10px;
+        }
+
+        th {
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        .gallery-container {
+            position: absolute;
+            top: 60px;
+            left: 250px;
+            width: 1300px;
+            height: 1000px;
+        }
+
+        .btn {
+            margin: 2px;
+            padding: 2px;
+            font-size: 8px;
+        }
+
+        .gallery-container-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+            aspect-ratio: 1/1;
+        }
+
+        .media-card, .post-card {
+            border: 1px solid;
+            border-color: rgba(255,255,255,0.1);
+            border-radius: 1px;
+            border-width: 1px;
+            border-radius: 1rem;
+            margin: 10px;
+            padding: 10px;
+            overflow: hidden;
+            width: 300px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<body>
+    <h1>Ledgers</h1>
+
+
+
+    <div class="form-section">
+        
+
+        <p>Ledgers</p>
+        <input class="btn" onclick="toggleDiv()" type="submit" value="Add Ledger"><br>
+
+
+
+        <p>Expense Categories</p>
+
+        <div class="category-container">
+            <div class="category-card">
+                <p>Fuel</p>
+                <p>Perishable</p>
+                <p>Toiletries</p>
+                <p>Equipment</p>
+            </div>
+        </div>
+
+        <p>Income Categories</p>
+
+        <div class="category-container">
+            <div class="category-card">
+                <p>Dividend</p>
+                <p>Cash</p>
+                <p>Stock</p>
+            </div>
+        </div>
+
+
+        <p>Income</p>
+        <p>Expenses</p>
+        <form id='post-form' method="post">
+
+            <label for="project_name">Media Batch Tasks</label><br>
+            <select>
+                <option value='in-progress'>Batch Rename</option>
+                <option value='in-progress'>Crop image borders</option>
+                <option value='in-progress'>Create ZIP from selected</option>
+            </select><br><br>
+
+            
+
+            <label for="bid_price">Drag and drop media here or click to browse files...</label><br>
+            <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+
+            <!-- <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked> -->
+            <!-- <label for="use_random_id">Use Random ID</label><br><br> -->
+
+            <!-- <label for="service_id">Project ID:</label><br> -->
+            <!-- <input type="text" id="service_id" name="service_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br> -->
+
+            <!-- <input type="submit" value="Add Task"> -->
+            <input class="btn" type="submit" value="Schedule & Run Tasks"><br>
+            <input class="btn" type="submit" value="Run Schedule"><br>
+        </form>
+
+
+
+    </div>
+
+
+    <div class="list-section">
+        
+        <p>Folders</p>
+        <!-- <h2>Current Media</h2> -->
+        <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+        <input class="btn" type="submit" value="Add Folder"><br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Drive</th>
+                    <th>Path</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense[3] }}</td>
+                    <td>{{ expense[1] }}</td>
+                    <td>{{ expense[2] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    
+
+    <div class="gallery-container">
+        <h2>Gallery</h2>
+        <div class="gallery-container-cards">
+
+            {% for file in files %}
+            
+            <div class="media-card">
+                <img src="{{ file[3] }}">
+                <p>{{ file[2] }}</p>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function toggleDiv() {
+        // var div = document.getElementById("create-post-form")
+        var div2 = document.getElementById("post-form")
+
+        // if (div.classList.contains("hidden")){
+        //     div.classList.remove('hidden');
+        // } else {
+        //     div.classList.add('hidden')
+        // }
+
+        if (div2.classList.contains("hidden")){
+            div2.classList.remove('hidden');
+        } else {
+            div2.classList.add('hidden')
+        }
+    }
+
+    toggleDiv()
+</script>
+
+</body>
+</html>

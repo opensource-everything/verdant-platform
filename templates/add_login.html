@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Tag</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Center form */
+        .modal-popup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .modal-popup-element {
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+            text-align: center;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .input-section {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            font-size: 14px;
+            padding: 8px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+
+        .check-box-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #tag_id_input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal-popup-container">
+    <div class="modal-popup-element">
+        <h1>Add Tag</h1>
+        <form method="post">
+            <!-- Email Input -->
+            <div class="input-section">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+
+            <!-- Username Input -->
+            <div class="input-section">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <!-- Password Input -->
+            <div class="input-section">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" required>
+            </div>
+
+            <!-- Platform URL Input -->
+            <div class="input-section">
+                <label for="platform_url">Platform URL</label>
+                <input type="text" id="platform_url" name="platform_url" required>
+            </div>
+
+            <!-- Checkbox for Random ID -->
+            <div class="check-box-inputs">
+                <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+                <label for="use_random_id">Use Random ID</label>
+            </div>
+
+            <!-- Tag ID Input (only shown if random ID isn't checked) -->
+            <div class="input-section" id="tag_id_input">
+                <label for="tag_id">Tag ID</label>
+                <input type="text" id="tag_id" name="tag_id">
+            </div>
+
+            <!-- Submit Button -->
+            <button class="submit-btn" type="submit">Add Tag +</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('use_random_id').addEventListener('change', function() {
+        document.getElementById('tag_id_input').style.display = this.checked ? 'none' : 'block';
+    });
+</script>
+
+</body>
+</html>

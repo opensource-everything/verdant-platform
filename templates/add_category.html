@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        /* Remove unnecessary styling for better readability */
+        .modal-popup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .modal-popup-element {
+            display: inline-block;
+            border: 2px solid #333;
+            border-radius: 1em;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        form {
+            width: 350px;
+            margin: 10px; /* Added for consistency */
+        }
+
+        .input-section, .top-section, .creation-section {
+            margin-bottom: 20px;
+        }
+
+        .input-section label,
+        .top-section label,
+        .creation-section label {
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        .check-box-inputs input {
+            margin-right: 10px;
+        }
+
+        /* Improved form layout */
+        .check-box-inputs {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal-popup-container">
+    <div class="modal-popup-element">
+        <h1>Add Category</h1>
+        <form method="post">
+            <!-- Category Name Input -->
+            <div class="input-section">
+                <label for="category_name">Category Name</label><br>
+                <input type="text" id="category_name" name="category_name" required><br><br>
+            </div>
+
+            <!-- Description Input -->
+            <div class="description-input form-input-textareas">
+                <label for="description">Description</label><br>
+                <textarea id="description" name="description" required></textarea><br><br>
+            </div>
+
+            <!-- Parent Category Dropdown -->
+            <div class="top-section">
+                <label for="status">Parent Category</label><br>
+                <select name="status" id="status">
+                    <option value="in-progress">Material</option>
+                    <option value="pending">Tools</option>
+                    <option value="done">Parts</option>
+                    <option value="done">Plants</option>
+                </select><br><br>
+            </div>
+
+            <!-- Creation Info -->
+            <div class="creation-section">
+                <label for="due_date">Date Created</label><br>
+                <input type="text" id="due_date" name="due_date" value="{{ current_date }}" readonly><br><br>
+
+                <label for="created_by">Created By</label><br>
+                <select name="created_by" id="created_by">
+                    <option value="charlotte-smith">Charlotte Smith</option>
+                    <option value="john-smith-id">John Smith</option>
+                    <option value="pending">Kevin Smith</option>
+                </select><br><br>
+            </div>
+
+            <!-- Checkbox Section -->
+            <div class="check-box-inputs">
+                <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+                <label for="use_random_id">Generate Random ID?</label><br>
+
+                <input type="checkbox" id="is_active" name="is_active" value="1" checked>
+                <label for="is_active">Is this Category Active?</label><br>
+
+                <input type="checkbox" id="is_parent" name="is_parent" value="1" checked>
+                <label for="is_parent">Is this a Parent Category?</label><br><br>
+            </div>
+
+            <input class="submit-btn" type="submit" value="Add Category">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

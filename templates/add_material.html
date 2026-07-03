@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Material</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        .modal-popup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .modal-popup-element {
+            display: inline-block;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 1em;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            width: 450px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Ensure the description (textarea) matches the width of other inputs */
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .submit-btn {
+            font-size: 14px;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Grouping and aligning the checkbox + Material ID input */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Adds space between checkbox and label */
+            margin-top: 10px;
+        }
+
+        .checkbox-container input {
+            width: auto; /* Checkbox should not take full width */
+            margin: 0;
+        }
+
+        .material-id-container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal-popup-container">
+    <div class="modal-popup-element">
+        <h1>Add Material</h1>
+        <form method="post">
+            <label for="material_name">Material Name</label>
+            <input type="text" id="material_name" name="material_name" required>
+
+            <label for="material_price">Price</label>
+            <input type="text" id="material_price" name="material_price" required>
+
+            <label for="material_cost">Cost</label>
+            <input type="text" id="material_cost" name="material_cost" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+
+            <!-- Checkbox and Material ID in a neat row -->
+            <div class="checkbox-container">
+                <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+                <label for="use_random_id">Use Random ID</label>
+            </div>
+
+            <div class="material-id-container">
+                <label for="material_id">Material ID</label>
+                <input type="text" id="material_id" name="material_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}">
+            </div>
+
+            <!-- Submit Button -->
+            <input class="submit-btn" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

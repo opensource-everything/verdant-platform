@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+
+        table {
+            margin: 10px;
+        }
+
+        th {
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .table-header {
+            display: flex;
+
+        }
+
+        a {
+            font-size: 10px;
+            font-weight: 2px;
+            text-decoration: none;
+            text-align: center;
+            height: 10px;
+            margin: 10px;
+            display: inline-block;
+            border-radius: 0.4em;
+            border-style: solid;
+            border-width: 0.1em;
+            background-color: #f44336;
+            display: inline-block;
+            padding: 6px;
+        }
+
+        textarea {
+            width: 400px;
+            height: 20px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+
+        .material-tracking-section {
+            position: absolute;
+            top: 40px;
+            left: 890px;
+        }
+
+        .employee-section {
+            position: absolute;
+            top: 950px;
+            left: 760px;
+        }
+
+        table {            
+            border: 1px solid;
+            border-radius: 1px;
+            border-width: 1px;
+            border-radius: 1rem;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .monthly-section {
+            position: absolute;
+            top: 50px;
+            left: 300px;
+        }
+
+
+        .ledger-table {
+            position: relative;
+            top: -530px;
+            left: 260px;
+        }
+
+        .item-display-section {
+            position: relative;
+            top: -500px;
+            left: 200px;
+        }
+
+        .text-input {
+            margin: 3px;
+            padding: 3px;
+        }
+
+        .item-search > input {
+            border-radius: 1em;
+            font-size: 16px;
+            margin: 5px;
+            padding: 4px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="nav-dashboard">
+        <a href="{{ url_for('file_tracker') }}">Home</a>
+        <a href="{{ url_for('file_tracker') }}">Bug Tracker</a>
+        <a href="{{ url_for('file_tracker') }}">Profiles</a>
+        <a href="{{ url_for('add_service') }}">Job Trackers</a>
+        <a href="{{ url_for('workflow_automation') }}">Workflow Automation</a>
+        <a href="{{ url_for('media') }}">Media</a>
+        <a href="{{ url_for('media') }}">Posts</a>
+        <a href="{{ url_for('tagging') }}">Tags</a>
+    </div>
+
+
+        
+            <div class="table-header">
+                <h2>Expenses & Income Tracking</h2>
+            </div>
+
+
+
+
+            <form>
+                <!-- <input type="button" name="Add Category"> -->
+                <label>Ledger Name</label><br>
+                <input class='text-input' type="text" name="Category Name"><br><br>
+
+                <label>Description</label><br>
+                <input class='text-input' type="textarea" name="Category Name"><br>
+
+                <a href="{{ url_for('add_service') }}">Add Ledger</a>
+            </form>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cash</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Stock</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Dividends</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h2>Expense Categories</h2>
+            </div>
+
+
+
+
+
+            <form>
+                <!-- <input type="button" name="Add Category"> -->
+                <label>Category Name</label><br>
+                <input type="textarea" name="Category Name">
+                <a href="{{ url_for('add_service') }}">Add Category</a>
+            </form>
+
+            <!-- Table of ledger databases  -->
+            <div class="ledger-table">
+            <h3>Ledgers</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ledger Name</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>Date Created</th>
+                        <th>Last Modified</th>
+                        <th>Owner</th>
+                        <th>Currency</th>
+                        <th>Status</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>Gumroad Income</td>
+                        <td>GFX assets</td>
+                        <td>Income</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+                    <tr>
+                        <td>Personal Expense</td>
+                        <td>Personal purchases</td>
+                        <td>Income</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+                    <tr>
+                        <td>Personal Income</td>
+                        <td>Income from various revenue streams</td>
+                        <td>Income</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>AI Babe Patreon</td>
+                        <td>Subscription based products</td>
+                        <td>Income</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+                    <tr>
+                        <td>Verdant Inc Expenses 2025</td>
+                        <td>Expense records for 2025</td>
+                        <td>Expense</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Verdant Inc Income</td>
+                        <td>Expense records for 2025</td>
+                        <td>Income</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cashapp Investments</td>
+                        <td>Stock portfolio</td>
+                        <td>Asset</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Property Investments</td>
+                        <td>Property portfolio</td>
+                        <td>Asset</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+                    <tr>
+                        <td>Employee Payroll</td>
+                        <td>General 1st Tier employee payroll. This includes personal staff</td>
+                        <td>Liability</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+                    <tr>
+                        <td>Property Leases</td>
+                        <td>Ongoing Property leases</td>
+                        <td>Liability</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Brandon Espinoza</td>
+                        <td>USD</td>
+                        <td>Active</td>
+                    </tr>
+
+
+                    
+                </tbody>
+            </table>
+   
+
+            </div>
+             
+
+            <!-- Item information for the ledgers is displayed here -->
+            <div class="item-display-section">
+                
+                <h2>Ledger Name</h2>
+                <form class='item-search'>
+                    <input type="text" name="item-search-bar" value='Search for items'><br>
+                </form>
+
+                <div class="item-list-menu">
+                    
+                </div>
+
+                <div class="filter-menu">
+                    filled with various filter options
+                    date ranges, by SKU, or date created, price, or category
+                    
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Item</td>
+                            <td>Price</td>
+                            <td>Category</td>
+                            <td>Date Created</td>
+                            <td>SKU</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- 
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Natural Gas</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Gas</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Diesel</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Electricity</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Food</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="monthly-section">
+                <div class="table-header">
+                    <h2>Monthly Income</h2>
+                </div>
+
+                <h3>Monthly Total Income</h3>
+                <h3>$3,000</h3>
+
+
+
+
+
+                <div class="table-header">
+                    <h2>Monthly Expenses</h2>
+                </div>
+
+                <h3>Monthly Total Expense</h3>
+                <h3>$2,400</h3>
+
+                 <table>
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Natural Gas</td>
+                        <td>$40</td>
+                    </tr>
+
+                    <tr>
+                        <td>Gas</td>
+                        <td>$600</td>
+                    </tr>
+                    <tr>
+                        <td>Diesel</td>
+                        <td>$600</td>
+                    </tr>
+
+                    <tr>
+                        <td>Electricity</td>
+                        <td>$50</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Food</td>
+                        <td>$600</td>
+                    </tr>
+
+                    <tr>
+                        <td>Water</td>
+                        <td>$100</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rent</td>
+                        <td>$250</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Internet</td>
+                        <td>$80</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Property Payment</td>
+                        <td>$300</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+
+
+
+            </div>
+             -->
+
+
+
+
+
+
+
+</body>
+</html>

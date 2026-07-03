@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verdant – All Tables</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--bg:#f5f5f5;--bg2:#fff;--fg:#111;--accent:#007bff}
+[data-theme="dark"]{--bg:#111;--bg2:#1e1e1e;--fg:#eee;--accent:#0ff}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:var(--fg);display:flex;height:100vh}
+#sidebar{position:fixed;top:0;left:0;width:220px;height:100%;background:#000;color:#fff;padding:20px 0;overflow-y:auto}
+#sidebar a{display:block;padding:10px 20px;color:#ccc;text-decoration:none}
+#sidebar a:hover{background:var(--accent);color:#fff}
+#content{margin-left:220px;flex:1;padding:20px;overflow-y:auto}
+h2{margin:30px 0 10px;font-size:1.4em}
+table{width:100%;border-collapse:collapse;background:var(--bg2);border-radius:8px;overflow:hidden;margin-bottom:20px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #ddd}
+th{background:#eee}[data-theme="dark"] th{background:#222}
+.add-btn,button{margin:5px 5px 5px 0;padding:6px 12px;border:none;border-radius:4px;background:var(--accent);color:#fff;cursor:pointer}
+input,select{margin:2px;padding:4px}
+.toggle-dark{position:fixed;top:10px;right:10px;background:#333;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer;z-index:999}
+</style>
+</head>
+<body>
+
+<!-- ---------- CONFIG – EDIT ONLY HERE ---------- -->
+<script>
+const CONFIG = {
+  /* add or remove tables / columns at will */
+  Projects:   ['ProjectID','ProjectName','Type','Client','Status','StartDate','DueDate'],
+  Clients:    ['ClientID','Name','Contact','Address','TotalSpent'],
+  Services:   ['ServiceID','ServiceName','Description','Price'],
+  Expenses:   ['ExpenseID','Item','Category','Price','Date'],
+  Orders:     ['OrderID','Client','Items','Total','Status'],
+  Inventory:  ['ItemID','Name','Qty','Cost','Store'],
+  Tasks:      ['TaskID','Title','Assigned','Priority','Status'],
+  Users:      ['UserID','Username','Email','Role','Status'],
+  Logins:     ['LoginID','Platform','Username','Email','Status'],
+  Posts:      ['PostID','Caption','Platform','Status','Date'],
+  URLs:       ['URLID','URL','Platform','Status','DateCaptured'],
+  Automation: ['TaskID','Description','Platform','Status'],
+  Employees:  ['EmpID','Name','Role','Salary','HireDate'],
+  Schedules:  ['ShiftID','EmpName','Date','Start','End','Type'],
+  Suppliers:  ['VendorID','VendorName','Contact','Currency'],
+  Transactions:['TxnID','Title','Type','Amount','Date']
+};
+// initial demo rows (feel free to delete)
+const DEMO = {
+  Projects:[
+    {ProjectID:'P001',ProjectName:'Mexico Property',Type:'Rental',Client:'Karen',Status:'In Progress',StartDate:'2025-07-01',DueDate:'2025-07-31'},
+    {ProjectID:'P002',ProjectName:'Office Renovation',Type:'Commercial',Client:'Acme',Status:'Planning',StartDate:'2025-08-15',DueDate:'2025-10-15'}
+  ],
+  Clients:[
+    {ClientID:'C001',Name:'Karen Lopez',Contact:'karen@mail.com',Address:'4048 Sunset Dr',TotalSpent:12400},
+    {ClientID:'C002',Name:'Acme Inc',Contact:'info@acme.com',Address:'123 Business Rd',TotalSpent:35000}
+  ],
+  Services:[
+    {ServiceID:'S001',ServiceName:'3D Modeling',Description:'Full arch model',Price:2500},
+    {ServiceID:'S002',ServiceName:'Rendering',Description:'High-res stills',Price:1800}
+  ]
+};
+</script>
+<!-- ---------- END CONFIG ---------- -->
+
+<nav id="sidebar">
+  <h3 style="padding-left:20px;margin-top:0">Verdant</h3>
+  <a href="#Projects">Projects</a>
+  <a href="#Clients">Clients</a>
+  <a href="#Services">Services</a>
+  <a href="#Expenses">Expenses</a>
+  <a href="#Orders">Orders</a>
+  <a href="#Inventory">Inventory</a>
+  <a href="#Tasks">Tasks</a>
+  <a href="#Users">Users</a>
+  <a href="#Logins">Logins</a>
+  <a href="#Posts">Posts</a>
+  <a href="#URLs">Captured URLs</a>
+  <a href="#Automation">Automation Queue</a>
+  <a href="#Employees">Employees</a>
+  <a href="#Schedules">Schedules</a>
+  <a href="#Suppliers">Suppliers</a>
+  <a href="#Transactions">Transactions</a>
+</nav>
+
+<main id="content">
+  <button class="toggle-dark" onclick="toggleDark()">🌓</button>
+  <div id="tablesArea"></div>
+</main>
+
+<script>
+/* ---------- helpers ---------- */
+function $(sel){return document.querySelector(sel)}
+function $$(sel){return document.querySelectorAll(sel)}
+function uuid(){return 'id'+Math.random().toString(36).substr(2,9)}
+
+/* ---------- dark mode ---------- */
+function toggleDark(){
+  const root=document.documentElement;
+  const dark=root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme', dark?'light':'dark');
+  localStorage.setItem('theme', dark?'light':'dark');
+}
+(()=>{
+  const saved=localStorage.getItem('theme');
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+/* ---------- CRUD ---------- */
+function renderTables(){
+  const area=$('#tablesArea');
+  area.innerHTML='';
+  Object.entries(CONFIG).forEach(([tableName,cols])=>{
+    const table=document.createElement('section');
+    table.id=tableName;
+    table.innerHTML=`
+      <h2>${tableName}</h2>
+      <button onclick="addRow('${tableName}')">Add ${tableName}</button>
+      <input placeholder="Search ${tableName}…" oninput="filterTable(this,'${tableName}')">
+      <table data-name="${tableName}">
+        <thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}<th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    `;
+    area.appendChild(table);
+    // load stored or demo
+    const data=JSON.parse(localStorage.getItem(tableName) || '[]');
+    if(!data.length && DEMO[tableName]){localStorage.setItem(tableName,JSON.stringify(DEMO[tableName]));renderTable(tableName,DEMO[tableName]);}
+    else renderTable(tableName,data);
+  });
+}
+function renderTable(tableName,data){
+  const tbody=$(`table[data-name="${tableName}"] tbody`);
+  tbody.innerHTML='';
+  data.forEach(row=>{
+    const tr=document.createElement('tr');
+    CONFIG[tableName].forEach(col=>{
+      const td=document.createElement('td');
+      td.textContent=row[col]||'';
+      tr.appendChild(td);
+    });
+    const actions=document.createElement('td');
+    actions.innerHTML=`<button onclick="editRow('${tableName}','${row.id}')">Edit</button>
+                       <button onclick="delRow('${tableName}','${row.id}')">Del</button>`;
+    tr.appendChild(actions);
+    tbody.appendChild(tr);
+  });
+}
+function addRow(tableName){
+  const cols=CONFIG[tableName];
+  const row={id:uuid()};
+  cols.forEach(c=>{
+    const val=prompt

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdant Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+        .sidebar h1 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #27ae60;
+        }
+
+        /* Main content styles */
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h1>Verdant</h1>
+        <ul>
+            <li><a href="#">Financial Management</a></li>
+            <li><a href="#">Client & Contact Management</a></li>
+            <li><a href="#">Project Management</a></li>
+            <li><a href="#">Inventory & Resources</a></li>
+            <li><a href="#">Automation & Data Tools</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Financial Management -->
+        <div class="content-box">
+            <div class="section-title">Financial Management</div>
+            <p>Manage ledgers, invoices, expenses, and tax tracking.</p>
+        </div>
+
+        <!-- Client & Contact Management -->
+        <div class="content-box">
+            <div class="section-title">Client & Contact Management</div>
+            <p>Track client profiles, services, and CRM tools.</p>
+        </div>
+
+        <!-- Project Management -->
+        <div class="content-box">
+            <div class="section-title">Project Management</div>
+            <p>Monitor project timelines, tasks, and progress reports.</p>
+        </div>
+
+        <!-- Inventory & Resources -->
+        <div class="content-box">
+            <div class="section-title">Inventory & Resources</div>
+            <p>Track materials, services, and employee resources.</p>
+        </div>
+
+        <!-- Automation & Data Tools -->
+        <div class="content-box">
+            <div class="section-title">Automation & Data Tools</div>
+            <p>Manage scraping, data insights, and database management.</p>
+        </div>
+    </div>
+
+</body>
+</html>

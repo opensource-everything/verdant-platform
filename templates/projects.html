@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+
+        .dropdown-content {
+            display: none;
+
+            position: absolute;
+            padding: 12px 16px;
+            margin: 10px 12px;
+            z-index: 1;
+        }
+
+        .product-categories a {
+            text-decoration: none;
+        }
+
+        .dropdown-content a {
+            text-decoration: none;
+            padding: 5px 5px;
+            margin: 5px 5px;
+        }
+
+        .dropdown {
+            padding: 10px 10px;
+            margin: 10px 10px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .product-categories {
+            position: absolute;
+            top: 50px;
+
+        }
+
+        .product-gallery {
+            position: absolute;
+            left: 200px;
+            top: 50px;
+        }
+
+        .product-card {
+            border: solid 1px;
+            width: 220px;
+            height: 300px;
+            border-radius: 1em;
+        }
+
+        .product-image {
+            border-radius: 1em;
+            position: relative;
+            left: 10px;
+            top: 10px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .product-inventory-container {
+            position: relative;
+            left: 150px;
+            top: -130px
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            margin: 5px;
+            padding: 5px;
+        }
+
+        .file-tag-nav a {
+            text-decoration: none;
+            position: relative;
+            left: -25px;
+
+        }
+
+        .file-tag-nav {
+            position: relative;
+            top: 25px;
+        }
+
+        table {
+            /* width: 100%; */
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .left-dock {
+            position: absolute;
+            top: 2em;
+            left: 9em;
+        }
+
+        .left-dock ul li a {
+            text-decoration: none;
+            
+        }
+
+        .left-dock ul {
+            position: relative;
+            left: -2em;
+        }
+
+        form {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .posts-container {
+            position: absolute;
+            top: 2em;
+            left: 20em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!--
+
+        <nav class="main-navigation">
+            <ul>
+                <li>Store</li>
+                <div class="nav-dropdown">
+                    <a href="">Employees</a>
+                <a href="">Tasks</a>
+                <a href="">Payroll</a>
+            </div>
+            <li>Products</li>
+            <div class="nav-dropdown">
+                <a href="">Tools</a>
+                <a href="">Inventory</a>
+            </div>
+            <li>CMS</li>
+            <div class="nav-dropdown">
+                <a href="">Post</a>
+                <a href="">Profiler</a>
+                <a href="">Profiler</a>
+            </div>
+
+        </ul>
+
+        <a href="#tools">Tools</a>
+        <div class="dropdown-content">
+            <a href="#handtools">Hand Tools</a>
+            <a href="#gardening">Gardening</a>
+            <a href="#woodworking">Woodworking</a>
+            <a href="#automotive">Automotive</a>
+            <a href="#measuring">Measuring and Layout</a>
+            <a href="#painting">Painting</a>
+            <a href="#plumbing">Plumbing</a>
+            <a href="#electrical">Electrical</a>
+            <a href="#cleaning">Cleaning</a>
+            <a href="#hvac">HVAC</a>
+            <a href="#metalworking">Metalworking</a>
+            <a href="#electronic-repair">Electronic Repair</a>
+            <a href="#safety-equipment">Safety Equipment</a>
+        </div>
+
+        <a href="#apparel">Work Wear Essentials</a>
+        <div class="dropdown-content">
+            <a href="#boots">High Visibility Gear</a>
+            <a href="#boots">Boots</a>
+            <a href="#boots">Hats</a>
+            <a href="#boots">Pants</a>
+            <a href="#boots">Shirts</a>
+        </div>
+
+    </nav>
+    -->
+
+    <nav class="file-tag-nav">
+        <!-- <h3>CMS</h3> -->
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Posts</a></li>
+            <li><a href="#">Media Files</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Tags</a></li>
+            <li><a href="#">Tasks</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Crawler</a></li>
+            <li><a href="#">Bug Tracker</a></li>
+            <li><a href="#">Users</a></li>
+        </ul>
+
+    </nav>
+
+    <!-- 
+
+        <nav class="left-dock">
+            <h3>Posts</h3>
+            <ul>
+                <li><a href="">{Post title} <br> {date scheduled} <br> {platform}</a></li>
+            </ul>
+        </nav>
+    -->
+
+
+    <div class="posts-container">
+
+
+        <h2>Project Details</h2>
+
+        <form action="post">
+            <!-- <input type="button" value="Schedule Post" /><br><br> -->
+    
+            <label for="product_name">Project Name</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+            
+    
+            <label for="product_name">Address</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+            
+            <label for="description">Start Date</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+            <!-- <textarea id="description" name="description"></textarea><br><br> -->
+            
+
+            <label for="description">Progress Estimate</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+            
+            <label for="description">Budget</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+            
+            <label for="description">Bidding Price Estimate</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+            
+            
+            <label for="description">Status</label><br>
+            <select id="cars" name="cars">
+                <option value="audi">Bidding</option>
+                <option value="saab">Pending Permits</option>
+                <option value="mercedes">Pending Approval</option>
+                <option value="volvo">In Progress</option>
+            </select><br><br>
+            
+            <label for="description">Material Estimate</label><br>
+            <input type="text" id="product_name" name="product_name"><br><br>
+
+            <label for="description">Platform</label><br>
+            <select id="cars" name="cars">
+                <option value="volvo">Graphics Community</option>
+                <option value="saab">Tools and Autobody Community</option>
+                <option value="mercedes">Mercedes SLK</option>
+                <option value="audi">Audi TT</option>
+            </select><br><br>
+             
+        </form>
+
+        <h3>Material List</h3>
+        <input type="button" value="Add Material" /><br><br>
+        
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>SKU</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Sales Price</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>e8rew0r</td>
+                    <td>Product A</td>
+                    <td>Electronics</td>
+                    <td>200</td>
+                    <td>$200</td>
+                    <td>$30</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>aas48fos247j</td>
+                    <td>Product B</td>
+                    <td>Apparel</td>
+                    <td>20</td>
+                    <td>$50</td>
+                    <td>$15</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        
+
+        
+        <h3>Workscope</h3>
+
+        <input type="button" value="Add Work" /><br><br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Work ID</th>
+                    <th>Address</th>
+                    <th>Work Details</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Sales Price</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>e8rew0r</td>
+                    <td>Product A</td>
+                    <td>Electronics</td>
+                    <td>200</td>
+                    <td>$200</td>
+                    <td>$30</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>aas48fos247j</td>
+                    <td>Product B</td>
+                    <td>Apparel</td>
+                    <td>20</td>
+                    <td>$50</td>
+                    <td>$15</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        
+
+    </div>
+
+
+    <!--
+
+    <div class="product-gallery">
+        <h1>Products</h1>
+
+        <div class="product-card">
+            <img src="" alt="" class="product-image">
+            <p>Product Name</p>
+            <p>$Price</p>
+            <div class="bookmark">
+
+            </div>
+            <div class="cart">
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <form method="post">
+        <label for="product_name">Product Name:</label><br>
+        <input type="text" id="product_name" name="product_name"><br><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"></textarea><br><br>
+        <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+        <label for="use_random_id">Use Random Product ID</label><br><br>
+        <label for="product_id">Product ID:</label><br>
+        <input type="text" id="product_id" name="product_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    -->
+
+</body>
+</html>

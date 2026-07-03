@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Verdant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='verdant.css') }}">
+</head>
+<body class="app">
+<!-- ----------  HEADER  ---------- -->
+<header>
+  <div class="logo">
+    <i class="fa-solid fa-leaf"></i>
+    <h2>Verdant</h2>
+  </div>
+</header>
+
+<!-- ----------  MAIN GRID  ---------- -->
+<div class="main-grid">
+  <!--  Sidebar  -->
+  <aside class="sidebar">
+    <nav class="nav-group">
+      <h3>Core Systems</h3>
+      <a href="{{ url_for('CMS_dashboard') }}">CMS</a>
+      <a href="{{ url_for('CMS_dashboard') }}">CRM</a>
+      <a href="{{ url_for('projects_dashboard') }}">Projects</a>
+    </nav>
+
+    <nav class="nav-group">
+      <h3>Reports</h3>
+      <a href="{{ url_for('media') }}">Material Reports</a>
+      <a href="{{ url_for('media') }}">Employee Reports</a>
+      <a href="{{ url_for('media') }}">Store Reports</a>
+      <a href="{{ url_for('media') }}">Expense Reports</a>
+    </nav>
+
+    <nav class="nav-group">
+      <h3>Content</h3>
+      <a href="{{ url_for('media') }}">Posts</a>
+      <a href="{{ url_for('media') }}">Content Library</a>
+      <a href="{{ url_for('tagging') }}">Tags</a>
+      <a href="{{ url_for('folders_dashboard') }}">Folders</a>
+    </nav>
+
+    <nav class="nav-group">
+      <h3>Finance</h3>
+      <a href="{{ url_for('personal_ledger') }}">Ledger</a>
+    </nav>
+
+    <nav class="nav-group">
+      <h3>Operations</h3>
+      <a href="{{ url_for('CMS_dashboard') }}">Fleet</a>
+      <a href="{{ url_for('CMS_dashboard') }}">Messages</a>
+      <a href="{{ url_for('folders_dashboard') }}">Profile</a>
+      <a href="{{ url_for('folders_dashboard') }}">Settings</a>
+      <a href="{{ url_for('login') }}">Login</a>
+    </nav>
+  </aside>
+
+  <!--  Content  -->
+  <main>
+    <!-- ----------  ACCORDIONS  ---------- -->
+    <section>
+      <button class="accordion">Meta Operations</button>
+      <div class="panel"><div class="op-btns">
+        <a href="{{ url_for('add_service') }}">Start PostFusion</a>
+        <a href="{{ url_for('add_service') }}">Start Automation Agent Tasks</a>
+        <a href="{{ url_for('add_service') }}">Start Backup Services</a>
+      </div></div>
+
+      <button class="accordion">Folder Ops</button>
+      <div class="panel"><div class="op-btns">
+        <a onclick="launch_touch_designer()">Log content of folder in clipboard</a>
+        <a onclick="launch_touch_designer()">ZIP folders into 2GB chunks</a>
+      </div></div>
+
+      <button class="accordion">Program Launcher</button>
+      <div class="panel"><div class="op-btns">
+        <a onclick="launch_blender_four_three()">Blender 4.3</a>
+        <a onclick="launch_blender_four_two()">Blender 4.2</a>
+        <a onclick="launch_touch_designer()">Touch Designer</a>
+        <a onclick="launch_after_effects()">After Effects</a>
+        <a onclick="launch_photoshop()">Photoshop</a>
+        <a onclick="launch_video_ai()">Topaz Video AI</a>
+        <a onclick="launch_photo_ai()">Topaz Image AI</a>
+      </div></div>
+
+      <button class="accordion">Stable Diffusion</button>
+      <div class="panel"><div class="op-btns">
+        <a onclick="launch_stable_diffusion()">Launch Stable Diffusion</a>
+        <a onclick="launch_easy_diffusion()">Easy Diffusion Inpainting</a>
+      </div></div>
+
+      <button class="accordion">Crawlers</button>
+      <div class="panel"><div class="op-btns">
+        <a href="{{ url_for('add_service') }}">Crawl Instagram Profiles</a>
+        <a href="{{ url_for('add_service') }}">Crawl 4Chan</a>
+      </div></div>
+
+      <button class="accordion">Workflow Automation</button>
+      <div class="panel"><div class="op-btns">
+        <a href="{{ url_for('add_service') }}">Download content from clipboard URL</a>
+        <a href="{{ url_for('add_service') }}">Analyze URL in Clipboard</a>
+        <a href="{{ url_for('add_service') }}">Save Folder to Text File</a>
+        <a href="{{ url_for('add_service') }}">Add Folder to Backups from Clipboard</a>
+        <a href="{{ url_for('add_service') }}">Organize Downloads Folder</a>
+        <a href="{{ url_for('add_service') }}">Image Border Cropper Batch</a>
+        <a href="{{ url_for('add_service') }}">Zip File Contents</a>
+        <a href="{{ url_for('add_service') }}">File Contents to Txt file</a>
+      </div></div>
+
+      <button class="accordion">Video Analyzation</button>
+      <div class="panel"><div class="op-btns">
+        <a href="{{ url_for('add_service') }}">Extract Frames From Video in Folder</a>
+        <a href="{{ url_for('add_service') }}">Analyze Folders</a>
+        <a href="{{ url_for('add_service') }}">Analyze Video</a>
+        <a href="{{ url_for('add_service') }}">Detect Bodies in Video</a>
+        <a href="{{ url_for('add_service') }}">Detect Faces in Video</a>
+      </div></div>
+
+      <button class="accordion">Favorite Folders</button>
+      <div class="panel"><div class="op-btns">
+        <a href="{{ url_for('add_service') }}">Manage Favorite Folders</a>
+      </div></div>
+    </section>
+
+    <!-- ----------  SETTINGS  ---------- -->
+    <form class="settings-form" method="post">
+      <div class="chk-group">
+        <input type="checkbox" id="startupServices1" name="startupServices" checked>
+        <label for="startupServices1">Start services at program start</label>
+      </div>
+      <div class="chk-group">
+        <input type="checkbox" id="startupServices2" name="startupServices" checked>
+        <label for="startupServices2">Run services continuously</label>
+      </div>
+      <div class="chk-group">
+        <input type="checkbox" id="startupServices3" name="startupServices" checked>
+        <label for="startupServices3">Reboot services if shutdown</label>
+      </div>
+      <div class="chk-group">
+        <input type="checkbox" id="startupServices4" name="startupServices" checked>
+        <label for="startupServices4">Debug mode (continuous logging)</label>
+      </div>
+    </form>
+
+    <!-- ----------  QUEUE SECTION  ---------- -->
+    <div class="section">
+      <h3>Posts Schedule</h3>
+      <a class="add-btn" href="javascript:void(0)" data-modal="post" data-action="{{ url_for('add_post') }}">Add Post</a>
+      <table>
+        <thead><tr><th>Caption</th><th>Media</th><th>Platform</th><th>Status</th></tr></thead>
+        <tbody>{% for p in posts %}<tr><td>{{ p.caption }}</td><td>{{ p.media }}</td><td>{{ p.platform }}</td><td>{{ p.status }}</td></tr>{% endfor %}</tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h3>Automation Agent Queue</h3>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Add Agent Task +</a>
+      <table>
+        <thead><tr><th>Task</th><th>Screen Captures</th><th>Platform</th><th>Status</th></tr></thead>
+        <tbody>{% for t in agent_tasks %}<tr><td>{{ t.task }}</td><td>{{ t.captures }}</td><td>{{ t.platform }}</td><td>{{ t.status }}</td></tr>{% endfor %}</tbody>
+      </table>
+    </div>
+
+    <!--  COPY SAME PATTERN FOR OTHER QUEUES / TABLES  -->
+    <!--  … employees, clients, projects, etc. …  -->
+
+  </main>
+</div>
+
+<!-- =====  Universal Modal  ===== -->
+<div id="addModal" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close">&times;</span>
+    <h3 id="modalTitle">Add Item</h3>
+    <form id="modalForm" method="post">
+      <div id="modalInputs"></div>
+      <button type="submit" class="add-btn">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- ----------  JS  ---------- -->
+<script>
+/* accordion */
+document.querySelectorAll('.accordion').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('active');
+    btn.nextElementSibling.classList.toggle('open');
+  });
+});
+
+/* modal controller (same as you had) */
+const modal   = document.getElementById('addModal');
+const mTitle  = document.getElementById('modalTitle');
+const mForm   = document.getElementById('modalForm');
+const mInputs = document.getElementById('modalInputs');
+const mClose  = document.querySelector('.modal-close');
+
+const forms = { /* shorten to keep answer small */ };
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.add-btn');
+  if (!btn || !btn.dataset.modal) return;
+  const tpl = forms[btn.dataset.modal];
+  if (!tpl) return;
+  mTitle.textContent = tpl.title;
+  mInputs.innerHTML  = tpl.fields;
+  mForm.action       = btn.dataset.action || '';
+  modal.classList.add('show');
+  e.preventDefault();
+});
+mClose.onclick = () => modal.classList.remove('show');
+window.onclick = e => { if (e.target === modal) modal.classList.remove('show'); };
+
+/* launch helpers */
+function launch_stable_diffusion() {
+  fetch('/launch_stable_diffusion', {method:'POST'})
+    .then(r=>r.json()).then(d=>alert(d.message)).catch(err=>alert(err));
+}
+/* … add other launch_xxx identically … */
+</script>
+</body>
+</html>

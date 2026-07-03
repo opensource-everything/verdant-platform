@@ -1,0 +1,92 @@
+<style type='text/css'>
+            /* Dashboard Section (Sidebar) */
+        .dashboard-section {
+            font-size: 12px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #f5f5f5;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .dashboard-section a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .dashboard-section a:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .dashboard-section a:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+</style>
+
+<div class="dashboard-section">
+
+    <!-- ===== CORE SYSTEMS ===== -->
+    <div class="dash-group">
+        <h3>Core Systems</h3>
+        <a href="{{ url_for('CMS_dashboard') }}">CMS</a>
+        <a href="{{ url_for('CMS_dashboard') }}">CRM</a>
+        <a href="{{ url_for('projects_dashboard') }}">Projects</a>
+        <a href="{{ url_for('projects_dashboard') }}">Tasks</a>
+    </div>
+
+    <!-- ===== REPORTS ===== -->
+    <div class="dash-group">
+        <h3>Reports</h3>
+        <a href="{{ url_for('media') }}">Material Reports</a>
+        <a href="{{ url_for('media') }}">Employee Reports</a>
+        <a href="{{ url_for('media') }}">Store Reports</a>
+        <a href="{{ url_for('media') }}">Expense Reports</a>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="dash-group">
+        <h3>Content</h3>
+        <a href="{{ url_for('media') }}">Posts</a>
+        <a href="{{ url_for('media') }}">Content Library</a>
+        <a href="{{ url_for('tagging') }}">Tags</a>
+        <a href="{{ url_for('folders_dashboard') }}">Folders</a>
+    </div>
+
+    <!-- ===== FINANCE ===== -->
+    <div class="dash-group">
+        <h3>Finance</h3>
+        <!-- <a href="{{ url_for('personal_ledger') }}">Account</a> -->
+        <a href="{{ url_for('personal_ledger') }}">Ledger</a>
+    </div>
+
+    <!-- ===== OPERATIONS ===== -->
+    <div class="dash-group">
+        <h3>Operations</h3>
+        <a href="{{ url_for('CMS_dashboard') }}">Fleet</a>
+        <a href="{{ url_for('CMS_dashboard') }}">Messages</a>
+        <a href="{{ url_for('folders_dashboard') }}">Profile</a>
+        <a href="{{ url_for('folders_dashboard') }}">Settings</a>
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+
+    <!-- ===== ARCHIVED / DISABLED ===== -->
+    <!-- <a href="{{ url_for('projects_dashboard') }}">Projects Dashboard</a> -->
+    <!-- <a href="{{ url_for('file_tracker') }}">Mantis</a> -->
+    <!-- <a href="{{ url_for('file_tracker') }}">Profiles</a> -->
+    <!-- <a href="{{ url_for('add_service') }}">Job Trackers</a> -->
+    <!-- <a href="{{ url_for('workflow_automation') }}">Workflow Automation</a> -->
+    <!-- <a href="{{ url_for('folders_dashboard') }}">Job Listings</a> -->
+
+</div>
+

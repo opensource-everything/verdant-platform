@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdant Dash</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        table {
+            margin: 10px;
+        }
+
+        th {
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        .list-section {
+            position: absolute;
+            top: 60px;
+            left: 30px;
+        }
+
+        .btn {
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .gallery-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .media-card, .post-card {
+            border: 1px solid;
+            border-radius: 1px;
+            border-width: 1px;
+            border-radius: 1rem;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <h2>Verdant</h2>
+
+    <p>Automotive</p>
+    <p>Selling parts and vehicles</p>
+
+    <p>Agricultural</p>
+    <p>Sustainable farming techniques taught</p>
+
+    <p>Construction</p>
+    <p>Programs for concrete recycling</p>
+    <p>Training</p>
+
+    <p>Landscape</p>
+    <p>Outdoor spaces and maintanance</p>
+    <p>Training</p>
+
+    <p>Marketplace</p>
+    <p>Shop</p>
+    <p>Buy and sell items from local to all the way across the world</p>
+
+    <p>Education</p>
+    <p>Various educational tools</p>
+    <p>Advanced tracking and course study work</p>
+
+    <p>Robotics</p>
+    <p>automated health, maintenance, agriculture, cleaning, repair, building, manufacturing systems</p>
+
+    <p>Software</p>
+    <p>automated scraping and backup, scrubbing, searching and diagnositcs, analyzation, detection, tools</p>
+
+    <p>Business</p>
+    <p>Enterprise</p>
+    <p>project, employee, and financial tracking</p>
+
+
+
+    <div class="list-section">
+        <h1>Projects</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Client Name</th>
+                    <th>Date Started</th>
+                    <th>Bid</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Concrete Patio</td>
+                    <td>Karen</td>
+                    <td>Sept 13th</td>
+                    <td>5600</td>
+                    <td>Complete</td>
+                </tr>
+                <tr>
+                    <td>French Drain & Pebble Fill</td>
+                    <td>Karen</td>
+                    <td>Sept 24th</td>
+                    <td>2300</td>
+                    <td>Complete</td>
+                </tr>
+                <tr>
+                    <td>Concrete Driveway</td>
+                    <td>Bruce</td>
+                    <td>Oct 1st & 3rd</td>
+                    <td>5600</td>
+                    <td>Complete</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="form-section">
+        
+
+<!--    
+        <h2>Project</h2>
+        <input class="btn" onclick="toggleDiv()" type="submit" value="Schedule Task"><br>
+
+        <form id='post-form' method="post">
+
+            <label for="project_name">Project Name</label><br>
+            <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+
+            <label for="project_name">Client Name</label><br>
+            <br>
+            <select>
+                <option value='in-progress'>Karen</option>
+                <option value='in-progress'>Bruce</option>
+                <option value='in-progress'></option>
+            </select>
+            <br>
+
+
+            <label for="project_name">Services</label><br>
+            <br>
+            <select>
+                <option value='in-progress'>Mowing</option>
+                <option value='in-progress'>Lawn</option>
+                <option value='in-progress'>Tree Trimming</option>
+                <option value='in-progress'>Concrete Patio</option>
+                <option value='in-progress'>Concrete Driveway</option>
+            </select>
+            <br>
+
+ -->
+            <input class="btn" type="submit" value="Add Project"><br>
+        </form>
+
+
+
+    </div>
+
+
+    
+
+    <!-- 
+    <h2>Media Upload</h2>
+    <h2>Gallery</h2>
+
+    <div class="gallery-container">
+        
+        <div class="media-card">
+            <img src="">
+            <p>filename.png</p>
+        </div>
+
+        <div class="media-card">
+            <img src="">
+            <p>filename1.png</p>
+        </div>
+    </div>
+
+    <h1>Posts</h1>
+    <input class="btn" type="submit" value="Create Post"><br>
+    <button class='btn' onclick="toggleDiv()">Create Post</button>
+
+    <form id='create-post-form' method="post">
+        
+        <label for="bid_price">Post Caption</label><br>
+        <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+        <label for="bid_price">Tags</label><br>
+         <select>
+            <option value='in-progress'>Graphics</option>
+            <option value='in-progress'>Kids Cartoons</option>
+            <option value='in-progress'>Music</option>
+        </select><br><br>
+        <textarea>
+            
+        </textarea>
+
+        <input class="btn" type="submit" value="Schedule Post"><br>
+    </form>
+
+    <h2>Scheduled</h2>
+
+    <div class="post-card">
+        <p>Post Title</p>
+        <p>scheduled</p>
+        <p>facebook, instagram, ebay, etsy, gumroad</p>
+        <p>4/23/24</p>
+    </div>
+
+
+    <h2>Latest Posted</h2>
+
+    <div class="post-card">
+
+        <p>Post Title</p>
+        <p>posted</p>
+        <p>facebook, instagram, ebay, etsy, gumroad</p>
+        <p>4/23/24</p>
+    </div>
+     -->
+
+
+
+
+
+<script type="text/javascript">
+    function toggleDiv() {
+        var div = document.getElementById("create-post-form")
+        var div2 = document.getElementById("post-form")
+
+        if (div.classList.contains("hidden")){
+            div.classList.remove('hidden');
+        } else {
+            div.classList.add('hidden')
+        }
+        if (div2.classList.contains("hidden")){
+            div2.classList.remove('hidden');
+        } else {
+            div2.classList.add('hidden')
+        }
+    }
+
+    toggleDiv()
+</script>
+
+</body>
+</html>

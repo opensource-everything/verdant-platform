@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complicated Navigation Bar</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav {
+    background-color: #333;
+    padding: 10px;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ul li {
+    display: inline-block;
+    position: relative;
+  }
+  
+  ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+  }
+  
+  ul li:hover > ul {
+    display: block;
+  }
+  
+  ul ul {
+    display: none;
+    position: absolute;
+    background-color: #444;
+    padding: 0;
+    z-index: 1000;
+  }
+  
+  ul ul li {
+    display: block;
+  }
+  
+  ul ul li a {
+    padding: 10px 15px;
+  }
+  
+  ul ul ul {
+    left: 100%;
+    top: 0;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #444;
+    min-width: 200px;
+    z-index: 1000;
+  }
+  
+  .dropdown-content a {
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Different styles for different menu items */
+  .home a {
+    background-color: #4CAF50;
+  }
+  
+  .about a {
+    background-color: #f44336;
+  }
+  
+  .services a {
+    background-color: #2196F3;
+  }
+  
+  .contact a {
+    background-color: #ff9800;
+  }
+  
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li class="home"><a href="#">Home</a></li>
+    <li class="about"><a href="#">About</a></li>
+    <li class="services dropdown">
+      <a href="#">Services</a>
+      <div class="dropdown-content">
+        <a href="#">Web Development</a>
+        <a href="#">Graphic Design</a>
+        <a href="#">SEO</a>
+      </div>
+    </li>
+    <li class="contact"><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+</body>
+</html>

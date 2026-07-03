@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation Tabs</title>
+<style>
+
+  *
+  {
+    color: white;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar {
+    height: 100%;
+    width: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    padding-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar a {
+    display: block;
+    padding: 16px;
+    text-decoration: none;
+    color: white;
+  }
+  .content {
+    margin-left: 100px;
+    padding: 20px;
+  }
+  .switch {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    background-color: #ccc;
+    border-radius: 17px;
+    transition: background-color 0.3s ease;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 17px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #666;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+    background-color: white;
+  }
+
+  .tags p {
+    color: #2196F3;
+  }
+
+  body {
+    background-color: #0c0c0c;
+  }
+
+  .post-card, .tags {
+    border: solid;
+    border-radius: 1em;
+    border-width: 1px;
+    border-color: #3a3a3a;
+  }
+
+  .post-card p {
+    margin: 10px;
+    padding: 10px
+  }
+
+  .table-header {
+    display: flex;
+  }
+
+  .tags p {
+    margin: 5px;
+    padding: 2px;
+  }
+
+  .tags {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .new-tag p {
+    color: #2196F3;
+  }
+
+  .new-tag {
+    border: solid;
+    border-radius: .5em;
+    border-width: 1px;
+    border-color: #2196F3;
+  }
+
+
+
+
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <a href="#people">People</a>
+  <a href="#properties">Properties</a>
+  <a href="#schedules">Schedules</a>
+  <a href="#messages">Messages</a>
+  <a href="#tasks">Tasks</a>
+  <a href="#products">Products</a>
+  <a href="#orders">Orders</a>
+  <a href="#shipments">Shipments</a>
+  <a href="#cms">CMS</a>
+</div>
+
+<div class="content">
+  <!-- Your content goes here -->
+  <h3>Dashboard</h3>
+
+  <h3>Quick Actions</h3>
+  <p>Post +</p>
+  
+  
+  <h3>Posts</h3>
+  <div class="post-card">
+    <div class="table-header">
+      <p>Caption</p>
+      <p>Media</p>
+      <p>Platform</p>
+      <p>Tags</p>
+    </div>
+    <img src="" alt="">
+  </div>
+
+  <h3>Tags</h3>
+  <div class="tags">
+    <p>favorite</p>
+    <p>to-upscale</p>
+    <div class="new-tag">
+      <p>new tag +</p>
+    </div>
+  </div>
+
+  <h3>Crawlers</h3>
+  <h3>Folders</h3>
+  
+</div>
+
+<label class="switch">
+  <input type="checkbox" id="themeSwitch">
+  <span class="slider"></span>
+</label>
+
+<script>
+  const switchButton = document.getElementById('themeSwitch');
+  const body = document.querySelector('body');
+  const sidebar = document.querySelector('.sidebar');
+
+  switchButton.addEventListener('change', function() {
+    if (this.checked) {
+      // Dark mode
+      body.style.backgroundColor = '#111';
+      sidebar.style.backgroundColor = '#555';
+    } else {
+      // Light mode
+      body.style.backgroundColor = '#f1f1f1';
+      sidebar.style.backgroundColor = '#333';
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="project-container">
+        <input type="text" id="project-name" value="Project Name" />
+        <div class="tabs">
+            <button class="tab-link active" onclick="openTab(event, 'overview')">Overview</button>
+            <button class="tab-link" onclick="openTab(event, 'tasks')">Tasks</button>
+            <button class="tab-link" onclick="openTab(event, 'teams')">Teams</button>
+            <button class="tab-link" onclick="openTab(event, 'resources')">Resources</button>
+            <button class="tab-link" onclick="openTab(event, 'orders')">Orders</button>
+            <button class="tab-link" onclick="openTab(event, 'documents')">Documents</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <h3>Project Overview</h3>
+            <textarea placeholder="Enter project description..."></textarea>
+        </div>
+        
+        <div id="tasks" class="tab-content">
+            <h3>Project Tasks</h3>
+            <table>
+                <thead>
+                    <tr><th>Task Name</th><th>Status</th><th>Due Date</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><input type="text" placeholder="Task"></td>
+                        <td><select><option>Pending</option><option>Ongoing</option><option>Completed</option></select></td>
+                        <td><input type="date"></td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="teams" class="tab-content">
+            <h3>Project Teams</h3>
+            <input type="text" placeholder="Team Member Name">
+            <select><option>Role</option><option>Developer</option><option>Designer</option><option>Manager</option></select>
+        </div>
+        
+        <div id="resources" class="tab-content">
+            <h3>Resources</h3>
+            <input type="text" placeholder="Resource Name">
+            <input type="number" placeholder="Quantity">
+        </div>
+        
+        <div id="orders" class="tab-content">
+            <h3>Orders</h3>
+            <input type="text" placeholder="Order Item">
+            <input type="number" placeholder="Amount">
+        </div>
+        
+        <div id="documents" class="tab-content">
+            <h3>Documents</h3>
+            <input type="file">
+        </div>
+    </div>
+
+    <script>
+        function openTab(event, tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

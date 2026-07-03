@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+
+        table {
+            margin: 10px;
+        }
+
+        th {
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .table-header {
+            display: flex;
+
+        }
+
+        a {
+            font-size: 10px;
+            font-weight: 2px;
+            text-decoration: none;
+            text-align: center;
+            height: 10px;
+            margin: 10px;
+            display: inline-block;
+            border-radius: 0.4em;
+            border-style: solid;
+            border-width: 0.1em;
+            background-color: #f44336;
+            display: inline-block;
+            padding: 6px;
+        }
+/*
+        a {
+            position: relative;
+            top: -50px;
+            left: 120px;
+        }*/
+        
+        textarea {
+            width: 400px;
+            height: 20px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+
+        .material-tracking-section {
+            position: absolute;
+            top: 40px;
+            left: 890px;
+        }
+
+        .employee-section {
+            position: absolute;
+            top: 950px;
+            left: 760px;
+        }
+
+        table {            
+            border: 1px solid;
+            border-radius: 1px;
+            border-width: 1px;
+            border-radius: 1rem;
+            margin: 10px;
+            padding: 10px;
+        }
+
+
+
+    </style>
+
+</head>
+<body>
+
+
+
+
+    <a href="{{ url_for('file_tracker') }}">Home</a>
+    <a href="{{ url_for('file_tracker') }}">Bug Tracker</a>
+    <a href="{{ url_for('file_tracker') }}">Profiles</a>
+    <a href="{{ url_for('add_service') }}">Job Trackers</a>
+    <a href="{{ url_for('workflow_automation') }}">Workflow Automation</a>
+    <a href="{{ url_for('media') }}">Media</a>
+    <a href="{{ url_for('media') }}">Posts</a>
+    <a href="{{ url_for('tagging') }}">Tags</a>
+
+    <div class="trackers">
+        <div class="job-tracking-section">
+            
+            <textarea>lookup services, projects, clients and addresses
+            </textarea>
+
+
+            <div class="table-header">
+                <h2>People</h2>
+                <a href="{{ url_for('add_service') }}">Add People</a>
+            </div>
+
+
+            <form>
+                <input type="button" name="Add Person">
+                <option>
+                    <select></select>
+                </option>
+                <input type="textarea" name="">
+            </form>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service ID</th>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for service in services %}
+                    <tr>
+                        <td>{{ service[1] }}</td>
+                        <td>{{ service[2] }}</td>
+                        <td>{{ service[4] }}</td>
+                        <td>${{ service[3] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+            <h2>Team</h2>
+            <a href="{{ url_for('add_project') }}">Add Team</a>
+                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project ID</th>
+                        <th>Project Name</th>
+                        <th>Description</th>
+                        <th>Bid Price</th>
+                        <th>Status</th>
+                        <th>Client Name</th>
+                        <th>Start Date</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h2>Task</h2>
+                <a href="{{ url_for('add_client') }}">Add Task</a>
+                
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Client ID</th>
+                        <th>Client Name</th>
+                        <th>Address</th>
+                        <th>Current Projects</th>
+                        <th>Past Projects</th>
+                        <th>Total Spent</th>
+                        <th>Contract</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for client in clients %}
+                    <tr>
+                        <td>{{ client[3] }}</td>
+                        <td>{{ client[1] }}</td>
+                        <td>{{ client[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- <hr> -->
+
+        <div class="material-tracking-section">
+            
+            <h2>Material Tracking</h2>
+
+            <div class="table-header">
+                
+                <h3>Cost @ Project</h3>
+                <a href="{{ url_for('add_material') }}">Add Material</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            <div class="table-header">
+                
+            <h3>Cost @ Vendor</h3>
+            <a href="{{ url_for('add_material') }}">Add Material</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Vendor Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>On Hand</h3>
+                <a href="{{ url_for('add_material') }}">Add Material</a>
+                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+        <hr>
+        <div class="expense-section">
+            
+            <h2>Store Tracking</h2>
+                
+            <textarea>lookup stores, orders, products & inventory
+                
+            </textarea>
+
+            <div class="table-header">
+                
+                <h3>Store</h3>
+                <a href="{{ url_for('add_product') }}">Add Store</a>
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Store ID</th>
+                        <th>Store Name</th>
+                        <th>Description</th>
+                        <th>Inventory ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+            <h3>Product</h3>
+            <a href="{{ url_for('add_product') }}">Add Product</a>
+                
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product[1] }}</td>
+                        <td>{{ product[2] }}</td>
+                        <td>{{ product[3] }}</td>
+                        <td>{{ product[4] }}</td>
+                        <td>{{ product[5] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                
+                <h3>Inventory</h3>
+                <a href="{{ url_for('add_product') }}">Add Inventory</a>
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inventory ID</th>
+                        <th>Store ID</th>
+                        <th>Items</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Orders</h3>
+                <a href="{{ url_for('add_product') }}">Add Order</a>
+                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client Name</th>
+                        <th>Address</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            <h2>Expense Tracking</h2>
+            <!-- <h3>Expense Summary</h3> -->
+            <textarea>lookup expenses & store ledgers
+            </textarea>
+
+            <div class="table-header">
+                
+                <h3>Expenses List</h3>
+                <a href="{{ url_for('add_expense') }}">Add Expense</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Expense ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Ledgers</h3>
+                <a href="{{ url_for('add_expense') }}">Add Ledgers</a>
+                
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Expense ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            
+        </div>
+
+
+        <div class="employee-section">
+            
+            <h2>Employee Tracking</h2>
+            <textarea>lookup employees, schedules, & tasks
+            </textarea>
+
+
+            <div class="table-header">
+                <h3>Employees</h3>
+                <a href="{{ url_for('add_employee') }}">Add Employee</a>
+                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Role</th>
+                        <th>Salary</th>
+                        <th>Hire Date</th>
+                        <th>Metadata</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Schedules</h3>
+                <a href="{{ url_for('add_product') }}">Add Shift</a>
+                
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Schedule ID</th>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Shift Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Tasks</h3>
+                <a href="{{ url_for('add_task') }}">Add Task</a>
+                
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task ID</th>
+                        <th>Task Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Assigned To</th>
+                        <th>Created By</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task[1] }}</td>
+                        <td>{{ task[2] }}</td>
+                        <td>{{ task[3] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            
+            
+        </div>
+
+
+
+        
+    </div>
+
+
+
+
+
+</body>
+</html>

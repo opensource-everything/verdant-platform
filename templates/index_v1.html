@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            height: 100vh;
+        }
+
+        .trackers {
+          display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 220px;
+            /* Space for the sidebar */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            max-width: 320px;
+            /* Stack content vertically */
+        }
+
+        /* Logo Section */
+        .logo-section {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            z-index: 2;
+            /* Ensure logo is above other elements */
+        }
+
+
+        /* Operation Section */
+        .operation-section {
+            margin-top: 20px;
+            /* Moved from absolute positioning */
+
+            z-index: 1;
+        }
+
+        .operation-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            /* Consistent padding */
+        }
+
+        .operation-btns a,
+        .add-btn {
+            font-size: 7px;
+            text-decoration: none;
+            background-color: #b6aef0;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .operation-btns a:hover {
+            background-color: #9a8ce0;
+        }
+
+        /* Accordion Styles */
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: background-color 0.3s ease;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .accordion.active,
+        .accordion:hover {
+            background-color: #ccc;
+        }
+
+        .panel {
+            background-color: white;
+            padding: 0 15px;
+            display: none;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        /* Settings Form */
+        .settings-form {
+            margin-top: 20px;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        /* Queue Section */
+        .queue-section {
+            margin-top: 20px;
+            positon: relative;
+            top: 10px;
+            left: 100px;
+        }
+
+        .queues {
+            margin-bottom: 20px;
+            /* Spacing between queues */
+            top:100px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border: 1px solid #ddd; /* Add this line to create a border */
+            border-radius: 8px; /* Add this line for rounded corners */
+            overflow: hidden; /* This is important to make the border-radius work correctly with thead/tbody */
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 7px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        /* Optional: Style the first/last row to match the table's rounded corners */
+        table thead tr:first-child th:first-child,
+        table tbody tr:first-child td:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        table thead tr:first-child th:last-child,
+        table tbody tr:first-child td:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+
+        table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Captured URLs and Automation Sections */
+        .captured-urls,
+        .automation-section {
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            resize: vertical;
+        }
+         h3{
+          font-size: 16px;
+         }
+
+         .table-header {
+          font-size: 5px;
+         }
+
+         .business-section {
+          max-width: 600px; max-height: 900px;
+/*          position: relative;*/
+/*          top: 100px;*/
+/*          left: 100px;*/
+          overflow: scroll;
+         }
+
+         .material-section {
+          background-color: black;
+          position: relative;
+          top: -900px;
+          left: 650px;
+          z-index:2;
+         }
+         .store-section {
+          position: relative;
+          top: -800px;
+          left: 650px;
+         }
+         .employee-section {
+          position: relative;
+          top: -1900px;
+          left: 1400px;
+
+         }
+
+        /* ---- modal ---- */
+.modal-overlay{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;              /* hidden by default */
+  align-items:flex-start;    /* sit at the top     */
+  justify-content:center;
+  padding-top:60px;
+  z-index:9999;
+}
+.modal-box{
+  background:#fff;
+  border-radius:6px;
+  padding:20px 25px;
+  width:90%; max-width:520px;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+}
+.modal-close{
+  float:right;
+  font-size:22px;
+  cursor:pointer;
+}
+#modalInputs input, #modalInputs select, #modalInputs textarea{
+  width:100%;
+  margin:6px 0 12px;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
+}
+
+
+    </style>
+
+</head>
+<body>
+
+    <div class="logo-section">
+        <h2>Verdant</h2>
+    </div>
+
+
+    <!-- ===== Universal ADD-MODAL ===== -->
+<div id="addModal" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close">&times;</span>
+    <h3 id="modalTitle">Add Item</h3>
+    <form id="modalForm" method="post">
+      <!-- inputs are injected here -->
+      <div id="modalInputs"></div>
+      <button type="submit" class="add-btn">Save</button>
+    </form>
+  </div>
+</div>
+{% block content %}
+{% include "partials/_dashboard_nav.html" %}
+{% endblock %}
+
+  <div class="main-content">
+    <div class="operation-section">
+      <!-- Meta Operations Accordion -->
+      <button class="accordion">Meta Operations</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a href="{{ url_for('add_service') }}">Start PostFusion</a>
+          <a href="{{ url_for('add_service') }}">Start Automation Agent Tasks</a>
+          <a href="{{ url_for('add_service') }}">Start Backup Services</a>
+        </div>
+      </div>
+
+      <!-- Folder Ops Accordion -->
+      <button class="accordion">Folder Ops</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a onclick="launch_touch_designer()">Log content of folder in clipboard</a>
+          <a onclick="launch_touch_designer()">ZIP folders into 2GB chunks</a>
+        </div>
+      </div>
+
+      <!-- Program Launcher Accordion -->
+      <button class="accordion">Program Launcher</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a onclick="launch_blender_four_three()">Blender 4.3</a>
+          <a onclick="launch_blender_four_two()">Blender 4.2</a>
+          <a onclick="launch_touch_designer()">Touch Designer</a>
+          <a onclick="launch_after_effects()">After Effects</a>
+          <a onclick="launch_photoshop()">Photoshop</a>
+          <a onclick="launch_video_ai()">Topaz Video AI</a>
+          <a onclick="launch_photo_ai()">Topaz Image AI</a>
+        </div>
+      </div>
+
+      <!-- Stable Diffusion Accordion -->
+      <button class="accordion">Stable Diffusion</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a onclick="launch_stable_diffusion()">Launch Stable Diffusion</a>
+          <a onclick="launch_easy_diffusion()">Easy Diffusion Inpainting</a>
+        </div>
+      </div>
+
+      <!-- Crawlers Accordion -->
+      <button class="accordion">Crawlers</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a href="{{ url_for('add_service') }}">Crawl Instagram Profiles</a>
+          <a href="{{ url_for('add_service') }}">Crawl 4Chan</a>
+        </div>
+      </div>
+
+      <!-- Workflow Automation Accordion -->
+      <button class="accordion">Workflow Automation</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a href="{{ url_for('add_service') }}">Download content from clipboard URL</a>
+          <a href="{{ url_for('add_service') }}">Analyze URL in Clipboard</a>
+          <a href="{{ url_for('add_service') }}">Save Folder to Text File</a>
+          <a href="{{ url_for('add_service') }}">Add Folder to Backups from Clipboard</a>
+          <a href="{{ url_for('add_service') }}">Organize Downloads Folder</a>
+          <a href="{{ url_for('add_service') }}">Image Border Cropper Batch</a>
+          <a href="{{ url_for('add_service') }}">Zip File Contents</a>
+          <a href="{{ url_for('add_service') }}">File Contents to Txt file</a>
+        </div>
+      </div>
+
+      <!-- Video Analyzation Accordion -->
+      <button class="accordion">Video Analyzation</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a href="{{ url_for('add_service') }}">Extract Frames From Video in Folder</a>
+          <a href="{{ url_for('add_service') }}">Analyze Folders</a>
+          <a href="{{ url_for('add_service') }}">Analyze Video</a>
+          <a href="{{ url_for('add_service') }}">Detect Bodies in Video</a>
+          <a href="{{ url_for('add_service') }}">Detect Faces in Video</a>
+        </div>
+      </div>
+
+      <!-- Favorite Folders Accordion -->
+      <button class="accordion">Favorite Folders</button>
+      <div class="panel">
+        <div class="operation-btns">
+          <a href="{{ url_for('add_service') }}">Manage Favorite Folders</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Form -->
+    <form class="settings-form" method="post">
+      <div class="checkbox-group">
+        <input type="checkbox" id="startupServices1" name="startupServices" checked>
+        <label for="startupServices1">Start services at program start</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="startupServices2" name="startupServices" checked>
+        <label for="startupServices2">Run services continuously</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="startupServices3" name="startupServices" checked>
+        <label for="startupServices3">Reboot services if shutdown</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="startupServices4" name="startupServices" checked>
+        <label for="startupServices4">Debug mode (continuous logging)</label>
+      </div>
+    </form>
+  </div>
+
+
+<!-- End of services quicklinks -->
+
+    <div class="queue-section">
+      <!-- 
+
+        <div class="queues">
+            <h3>Passwords</h3>
+            <a class="add-btn" href="javascript:void(0)"
+   data-modal="password"
+   data-action="{{ url_for('add_password') }}">Add Password</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Profile ID</th>
+                        <th>Email</th>
+                        <th>Website</th>
+                        <th>Username</th>
+                        <th>Status</th>
+                        <th>Passphrase</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for profile in profiles %}
+                    <tr>
+                        <td>profile[1]</td>
+                        <td>profile[2]</td>
+                        <td>profile[3]</td>
+                        <td>profile[4]</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>               
+
+       -->
+
+            <div class="business-section">
+              <h2>Business Operations</h2>
+
+
+              <form action="/material-report-search" method="get">
+                  <label for="material_query">Search through posts, clients, products, tasks, projects & folders:</label>
+                  <input 
+                      type="search" 
+                      id="material_query" 
+                      name="material_q" 
+                      placeholder="Enter Material Code, Batch ID, or Date..."
+                  >
+                  <button type="submit">Lookup Report</button>
+              </form>
+              <div class="queues">
+              <h3>Posts Schedule</h3>
+
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="post"
+     data-action="{{ url_for('add_post') }}">Add Post</a>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Caption</th>
+                          <th>Media</th>
+                          <th>Platform</th>
+                          <th>Status</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for service in services %}
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+        <div class="queues automation-section">
+              <h3>Automation Agent Queue</h3>
+              <a class="add-btn" href="{{ url_for('add_service') }}">Add Agent Task +</a>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Task</th>
+                          <th>Screen Captures</th>
+                          <th>Platform</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for service in services %}
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+
+          <div class="queues">
+              <h3>Employee Profiles</h3>
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="profile"
+     data-action="{{ url_for('add_profile') }}">Add Profile</a>
+              <!-- <a class="add-btn" href="{{ url_for('add_service') }}">Add Profile</a> -->
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Profile ID</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Username</th>
+                          <th>Status</th>
+                          <th>Role</th>
+                          <th>Password</th>
+                          <th>Media</th>
+                          <th>Social Platform URLs</th>
+                          <th>Automation Jobs</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for profile in profiles %}
+                      <tr>
+                          <td>profile[1]</td>
+                          <td>profile[2]</td>
+                          <td>profile[3]</td>
+                          <td>profile[4]</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="queues">
+              <h3>Logins</h3>
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="login"
+     data-action="{{ url_for('add_login') }}">Add Login</a>
+              <!-- <a class="add-btn" href="{{ url_for('add_login') }}">Add Login</a> -->
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Login ID</th>
+                          <th>Owner Name</th>
+                          <th>Username</th>
+                          <th>Email</th>
+                          <th>Status</th>
+                          <th>Password</th>
+                          <th>Platform URL</th>
+                          <th>Task Queue</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for profile in profiles %}
+                      <tr>
+                          <td>profile[1]</td>
+                          <td>profile[2]</td>
+                          <td>profile[3]</td>
+                          <td>profile[4]</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="queues">
+              <h3>Orders</h3>
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="order"
+     data-action="{{ url_for('add_order') }}">Add Order</a>
+              <!-- <a class="add-btn" href="{{ url_for('add_login') }}">Add Order</a> -->
+              <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer ID</th>
+                        <th>Item ID</th>
+                        <th>Qty</th>
+                        <th>SubTotal</th>
+                        <th>Tax</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Shipping Address</th>
+                        <th>Status</th>
+                        <th>Date Created</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for order in orders %}
+                        <tr>
+                            <td>order[1]</td>
+                            <td>order[2]</td>
+                            <td>order[3]</td>
+                            <td>order[4]</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+          </div>
+
+          <div class="queues">
+              <h3>Expenses</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_service') }}">Add Item</a> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="item"
+     data-action="{{ url_for('add_item') }}">Add Item</a>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Item ID</th>
+                          <th>Expense Category</th>
+                          <th>Date Purchased</th>
+                          <th>Price</th>
+                          <th>Automations</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for profile in profiles %}
+                      <tr>
+                          <td>profile[1]</td>
+                          <td>profile[2]</td>
+                          <td>profile[3]</td>
+                          <td>profile[4]</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="queues">
+              <h3>Users</h3>
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="user"
+     data-action="{{ url_for('add_user') }}">Add User</a>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>User ID</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Username</th>
+                          <th>Password</th>
+                          <th>Platform</th>
+                          <th>Status</th>
+                          <th>Folders</th>
+                          <th>Files</th>
+                          <th>Active Tasks</th>
+                          <th>Role</th>
+                          <th>Status</th>
+                          <th>Media</th>
+                          <th>Social Platform URLs</th>
+                          <th>Automation Jobs</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for profile in profiles %}
+                      <tr>
+                          <td>profile[1]</td>
+                          <td>profile[2]</td>
+                          <td>profile[3]</td>
+                          <td>profile[4]</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="queues captured-urls">
+              <h3>Captured URLs</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_service') }}">Paste URL from clipboard</a> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="url"
+     data-action="{{ url_for('add_url') }}">Add URL</a>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>URL</th>
+                          <th>Media</th>
+                          <th>Platform</th>
+                          <th>Status</th>
+                          <th>Automations</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for service in services %}
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+
+
+
+      <div class="client-table">
+          
+          <div class="table-header">
+              <h3>Clients</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_client') }}">Add Client</a><br> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="client"
+     data-action="{{ url_for('add_client') }}">Add Client</a>
+              <p>Add basic client information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Client ID</th>
+                      <th>Client Name</th>
+                      <th>Address ID</th>
+                      <th>Phone Number</th>
+                      <th>Email</th>
+                      <th>Description</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for client in clients %}
+                  <tr>
+                      <td>{{ client[1] }}</td>
+                      <td>{{ client[2] }}</td>
+                      <td>{{ client[3] }}</td>
+                      <td>{{ client[4] }}</td>
+                      <td>{{ client[5] }}</td>
+                      <td>{{ client[6] }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+
+      <div class="property-table">
+          
+          <div class="table-header">
+              <h3>Properties</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_property') }}">Add Property</a><br> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="property"
+     data-action="{{ url_for('add_property') }}">Add Property</a>
+              <p>Add property information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Property ID</th>
+                      <th>Property Name</th>
+                      <th>Property Type</th>
+                      <th>Address</th>
+                      <th>Owner</th>
+                      <th>Contact</th>
+                      <th>Finance Status</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for property in properties %}
+                  <tr>
+                      <td>{{ property[1] }}</td>
+                      <td>{{ property[2] }}</td>
+                      <td>{{ property[3] }}</td>
+                      <td>{{ property[4] }}</td>
+                      <td>{{ property[5] }}</td>
+                      <td>{{ property[6] }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+      <div class="project-table">
+          
+          <div class="table-header">
+              <h3>Projects</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_project_route') }}">Add Project</a><br> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="project"
+     data-action="{{ url_for('add_project_route') }}">Add Project</a>
+
+              <p>Add project information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Project ID</th>
+                      <th>Project Name</th>
+                      <th>Project Type</th>
+                      <th>Services</th>
+                      <th>Property Owner</th>
+                      <th>Property Address</th>
+                      <th>Contact</th>
+                      <th>Contract</th>
+                      <th>Bid Price</th>
+                      <th>Material Cost</th>
+                      <th>Labor Cost</th>
+                      <th>Start Date</th>
+                      <th>Due Date</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+
+      <div class="team-table">
+          
+          <div class="table-header">
+              <h3>Teams</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_category') }}">Add Team</a><br> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="team"
+     data-action="{{ url_for('add_team') }}">Add Team</a>
+              <p>Add Team information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Team ID</th>
+                      <th>Team Name</th>
+                      <th>Team Type</th>
+                      <th>Created By</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                      <th>Team Members</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+
+      <div class="service-table">
+          
+          <div class="table-header">
+              <h3>Services</h3>
+              <a class="add-btn" href="{{ url_for('add_service') }}">Add Service</a><br>
+              <p>Add service information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Service ID</th>
+                      <th>Service Name</th>
+                      <th>Service Type</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th>Price</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>{{ service[1] }}</td>
+                      <td>{{ service[2] }}</td>
+                      <td>{{ service[3] }}</td>
+                      <td>{{ service[4] }}</td>
+                      <td>{{ service[5] }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+
+      <div class="supplier-table">
+          <div class="table-header">
+              <h3>Suppliers</h3>
+              <a class="add-btn" href="{{ url_for('add_category') }}">Add Order</a><br>
+              <p>Review and Modify Order information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Vendor ID</th>
+                      <th>Vendor Name</th>
+                      <th>Currency</th>
+                      <th>Shipping Address</th>
+                      <th>Email</th>
+                      <th>Contact Person</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+      <div class="property-table">
+          <div class="table-header">
+              <h3>Transactions</h3>
+              <a class="add-btn" href="{{ url_for('add_category') }}">Add Transaction</a><br>
+              <p>Review and Modify Transaction information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Transaction ID</th>
+                      <th>Transaction Title</th>
+                      <th>Transaction Type</th>
+                      <th>Description</th>
+                      <th>Currency Code</th>
+                      <th>Sub Total</th>
+                      <th>Total</th>
+                      <th>Discounts</th>
+                      <th>Issued By</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+      <div class="product-table">
+          <div class="table-header">
+              <h3>Products</h3>
+
+              <a class="add-btn" href="{{ url_for('add_product') }}">Add Product</a><br>
+              <p>Review and Modify Order information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Order ID</th>
+                      <th>User ID</th>
+                      <th>Purchased Items</th>
+                      <th>Price</th>
+                      <th>Shipping Address</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+      <div class="tasks-table">
+          <div class="table-header">
+              <h3>Tasks</h3>
+              <a class="add-btn" href="{{ url_for('add_category') }}">Add Task</a><br>
+              <p>Review and Modify Order information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Order ID</th>
+                      <th>User ID</th>
+                      <th>Purchased Items</th>
+                      <th>Price</th>
+                      <th>Shipping Address</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+      <div class="tags-table">
+          <div class="table-header">
+              <h3>Tags</h3>
+              <a class="add-btn" href="{{ url_for('add_tag') }}">Add Tag</a><br>
+              <p>Create and Modify Tags.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Tag ID</th>
+                      <th>Tag Name</th>
+                      <th>Description</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tag in tags %}
+                  <tr>
+                      <td>{{ tag[1] }}</td>
+                      <td>{{ tag[2] }}</td>
+                      <td>{{ tag[3] }}</td>
+                      <td>{{ tag[4] }}</td>
+                      <td>{{ tag[5] }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+      <div class="ledger-table">
+          <div class="table-header">
+              <h3>Ledgers</h3>
+              <a class="add-btn" href="{{ url_for('add_category') }}">Add Ledger</a><br>
+              <p>Add ledgers for tracking business information.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Ledger ID</th>
+                      <th>Ledger Name</th>
+                      <th>Owner</th>
+                      <th>Contact</th>
+                      <th>Contracts</th>
+                      <th>Finance Status</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for service in services %}
+                  <tr>
+                      <td>AEI49345G</td>
+                      <td>Mexico Property</td>
+                      <td>Rental</td>
+                      <td>4048 Sunset Dr</td>
+                      <td>Karen</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+
+      </div>
+
+
+      <div class="category-table">
+          <div class="table-header">
+              <h3>Categories</h3>
+              <!-- <a class="add-btn" href="{{ url_for('add_category') }}">Add Category +</a><br> -->
+
+              <a class="add-btn" href="javascript:void(0)"
+     data-modal="category"
+     data-action="{{ url_for('add_category') }}">Add Category</a>
+              <p>You can tag different items with custom categories you define.</p>
+          </div>
+
+          <table>
+              <thead>
+                  <tr>
+                      <th>Category ID</th>
+                      <th>Category Name</th>
+                      <th>Description</th>
+                      <th>Parent Category ID</th>
+                      <th>Is Active</th>
+                      <th>Date Created</th>
+                      <th>Date Updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for category in categories %}
+                  <tr>
+                      <td>GEOIGH3930483</td>
+                      <td>Material</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+
+      <div class="trackers">
+          <div class="project-section">
+              <hr>
+              <h2>Project Operations</h2>
+
+              <form action="/job-search" method="get">
+                  <label for="job_query">Lookup services, projects, clients, and addresses:</label>
+                  <input 
+                      type="search" 
+                      id="job_query" 
+                      name="job_q" 
+                      placeholder="Enter Job ID, Client Name, or Address..."
+                  >
+                  <button type="submit">Search</button>
+              </form>
+
+
+              <div class="service-header">
+                  <h3>Services</h3>
+                  <a class="add-btn" href="{{ url_for('add_service') }}">Add Service</a>
+              </div>
+
+
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Service ID</th>
+                          <th>Service Name</th>
+                          <th>Description</th>
+                          <th>Price</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for service in services %}
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+
+              <div class="table-header">
+              <h3>Projects</h3>
+              <a class="add-btn" href="{{ url_for('add_project_route') }}">Add Project</a>
+                  
+              </div>
+
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Project ID</th>
+                          <th>Project Name</th>
+                          <th>Description</th>
+                          <th>Bid Price</th>
+                          <th>Status</th>
+                          <th>Client Name</th>
+                          <th>Contact Phone</th>
+                          <th>Contact Email</th>
+                          <th>Start Date (Est)</th>
+                          <th>Start Date (Actual)</th>
+                          <th>Address</th>
+                          <th>Invoice</th>
+                          <th>Payment Status</th>
+                          <th>Est. Work Days</th>
+                          <th>Image/File Attachments</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for expense in expenses %}
+                      <tr>
+                          <td>{{ expense[3] }}</td>
+                          <td>{{ expense[1] }}</td>
+                          <td>{{ expense[2] }}</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+
+              <div class="client-header">
+                  <h3>Clients</h3>
+                  <a class="add-btn" href="{{ url_for('add_client') }}">Add Client</a>
+                  
+              </div>
+
+
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Client ID</th>
+                          <th>Client Name</th>
+                          <th>Address</th>
+                          <th>Current Projects</th>
+                          <th>Past Projects</th>
+                          <th>Total Spent</th>
+                          <th>Contract</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for client in clients %}
+                      <tr>
+                          <td>{{ client[3] }}</td>
+                          <td>{{ client[1] }}</td>
+                          <td>{{ client[2] }}</td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="category-section">
+              <div class="table-header">
+                  <h3>Categories</h3>
+                  <a class="add-btn" href="{{ url_for('add_client') }}">Add Category</a>
+              </div>
+                  <table>
+                      <thead>
+                          <tr>
+                              <th>Category ID</th>
+                              <th>Category Name</th>
+                              <th>Address</th>
+                              <th>Current Projects</th>
+                              <th>Past Projects</th>
+                              <th>Total Spent</th>
+                              <th>Contract</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {% for client in clients %}
+                          <tr>
+                              <td>{{ client[3] }}</td>
+                              <td>{{ client[1] }}</td>
+                              <td>{{ client[2] }}</td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="material-section">
+            <h2>Material Reports</h2>
+
+            <form action="/material-report-search" method="get">
+                <label for="material_query">Search for material reports, inventory levels, & stock sheets:</label>
+                <input 
+                    type="search" 
+                    id="material_query" 
+                    name="material_q" 
+                    placeholder="Enter Material Code, Batch ID, or Date..."
+                >
+                <button type="submit">Lookup Report</button>
+            </form>
+            <div class="table-header">
+                <h3>Cost @ Project</h3>
+                <a class="add-btn" href="{{ url_for('add_material') }}">Add Material</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            <div class="table-header">
+                
+            <h3>Cost @ Vendor</h3>
+            <a class="add-btn" href="{{ url_for('add_material') }}">Add Material</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Vendor Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="on-hand-material-header">
+                <h3>On Hand</h3>
+                <a class="add-btn" href="{{ url_for('add_material') }}">Add Material</a>
+                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="store-section">
+            <h2>Store Tracking</h2>
+
+            <form action="/store-search" method="get">
+                <label for="store_query">Lookup stores, orders, products & inventory:</label>
+                <input 
+                    type="search" 
+                    id="store_query" 
+                    name="store_q" 
+                    placeholder="Enter Store ID, Order Number, or Product Name..."
+                >
+                <button type="submit">Search</button>
+            </form>
+            <div class="table-header">
+                <h3>Store</h3>
+                <a class="add-btn" href="{{ url_for('add_product') }}">Add Store</a>
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Store ID</th>
+                        <th>Store Name</th>
+                        <th>Description</th>
+                        <th>Inventory ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+            <h3>Product</h3>
+            <a class="add-btn" href="{{ url_for('add_product') }}">Add Product</a>                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product[1] }}</td>
+                        <td>{{ product[2] }}</td>
+                        <td>{{ product[3] }}</td>
+                        <td>{{ product[4] }}</td>
+                        <td>{{ product[5] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+            <h3>Inventory</h3>
+            <a class="add-btn" href="{{ url_for('add_product') }}">Add Inventory</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inventory ID</th>
+                        <th>Store ID</th>
+                        <th>Items</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+            <h3>Orders</h3>
+            <a class="add-btn" href="{{ url_for('add_product') }}">Add Order</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client Name</th>
+                        <th>Address</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Expense Reports</h2>
+
+            <form action="/expense-lookup" method="get">
+                <label for="expense_search">Lookup expenses & ledgers:</label>
+                <input 
+                    type="search" 
+                    id="expense_search" 
+                    name="query" 
+                    placeholder="Enter Report ID, Date, or Employee Name..."
+                >
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="table-header">
+                <h3>Expenses List</h3>
+                <a class="add-btn" href="{{ url_for('add_expense') }}">Add Expense</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Expense ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Ledgers</h3>
+                <a class="add-btn" href="{{ url_for('add_expense') }}">Add Ledgers</a>                
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Expense ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense[3] }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            
+        </div>
+        <!-- END OF Expense Section -->
+
+        <!-- Employee Section -->
+        <div class="employee-section">
+
+            <h2>Employee Tracking</h2>
+
+            <form action="/employee-search-results" method="get">
+                <label for="search_query">Lookup employees, schedules, & tasks:</label>
+                <input 
+                    type="search" 
+                    id="search_query" 
+                    name="q" 
+                    placeholder="Enter name or ID..."
+                >
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="table-header">
+                <h3>Employees</h3>
+                <a class="add-btn" href="{{ url_for('add_employee') }}">Add Employee</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Role</th>
+                        <th>Salary</th>
+                        <th>Hire Date</th>
+                        <th>Metadata</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Schedules</h3>
+                <a class="add-btn" href="{{ url_for('add_product') }}">Add Shift</a>
+                
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Schedule ID</th>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Shift Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <!-- <td>{{ product[3] }}</td> -->
+                        <!-- <td>{{ product[1] }}</td> -->
+                        <!-- <td>{{ product[2] }}</td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="table-header">
+                <h3>Tasks</h3>
+                <a class="add-btn" href="{{ url_for('add_task') }}">Add Task</a>                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task ID</th>
+                        <th>Task Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Assigned To</th>
+                        <th>Created By</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task[1] }}</td>
+                        <td>{{ task[2] }}</td>
+                        <td>{{ task[3] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- END OF Employee Section -->
+
+    </div>
+
+    </div>
+
+
+</body>
+
+<script>
+
+
+    function launch_stable_diffusion() {
+        fetch('/launch_stable_diffusion', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => alert("Error launching app: " + error));
+    }
+
+    function launch_easy_diffusion() {
+        fetch('/launch_easy_diffusion', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => alert("Error launching app: " + error));
+    }
+
+    function launch_photo_ai() {
+        fetch('/launch_photo_ai', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => alert("Error launching app: " + error));
+    }
+
+
+
+</script>
+
+<script>
+/* ===== modal controller ===== */
+const modal   = document.getElementById('addModal');
+const mTitle  = document.getElementById('modalTitle');
+const mForm   = document.getElementById('modalForm');
+const mInputs = document.getElementById('modalInputs');
+const mClose  = document.querySelector('.modal-close');
+
+/* map: button data-modal -> title + inputs */
+const formTemplates = {
+  password: {
+    title: 'Add Password',
+    fields: `
+      <label>Email    <input name="email"    type="email"></label>
+      <label>Website  <input name="website"  type="text"></label>
+      <label>Username <input name="username" type="text"></label>
+      <label>Password <input name="password" type="password"></label>`
+  },
+  profile: {
+    title: 'Add Profile',
+    fields: `
+      <label>First Name <input name="first_name"></label>
+      <label>Last Name  <input name="last_name"></label>
+      <label>Username   <input name="username"></label>`
+  },
+  user: {
+    title: 'Add User',
+    fields: `
+      <label>First Name <input name="first_name"></label>
+      <label>Last Name  <input name="last_name"></label>
+      <label>Username   <input name="username"></label>
+      <label>Password   <input name="password" type="password"></label>`
+  },
+  login: {
+    title: 'Add Login',
+    fields: `
+      <label>Owner Name <input name="owner_name"></label>
+      <label>Username   <input name="username"></label>
+      <label>Email      <input name="email" type="email"></label>
+      <label>Password   <input name="password" type="password"></label>
+      <label>Platform URL<input name="platform_url"></label>`
+  },
+  post: {
+    title: 'Add Post',
+    fields: `
+      <label>Owner Name <input name="owner_name"></label>
+      <label>Username   <input name="username"></label>
+      <label>Profile Picture 
+        <input type="file" name="profile_picture" accept="image/*">
+      </label>`
+  },
+  order: {
+    title: 'Add Order',
+    fields: `
+      <label>Customer ID <input name="customer_id"></label>
+      <label>Item ID     <input name="item_id"></label>
+      <label>Quantity    <input name="qty" type="number"></label>`
+  },
+  expense: {
+    title: 'Add Expense',
+    fields: `
+      <label>Item Name <input name="item_name"></label>
+      <label>Category  <input name="category"></label>
+      <label>Price     <input name="price" type="number" step="0.01"></label>`
+  },
+  category: {
+    title: 'Add Category',
+    fields: `
+      <label>Category Name <input name="category_name"></label>
+      <label>Description   <textarea name="description"></textarea></label>`
+  },
+  client: {
+    title: 'Add Client',
+    fields: `
+      <label>Client Name <input name="client_name"></label>
+      <label>Phone       <input name="phone"></label>
+      <label>Email       <input name="email" type="email"></label>
+      <label>Description <textarea name="description" type="description"></textarea></label>
+      <label>Address     <textarea name="address"></textarea></label>`
+  },
+  property: {
+    title: 'Add Property',
+    fields: `
+        <label>Property ID (Optional) <input name="property_id" value="{{ property_id }}"></label>
+        <label><input type="checkbox" name="use_random_id" checked> Auto-generate ID</label>
+        <hr>
+        <label>Property Name <input name="property_name" required></label>
+        <label>Category <input name="category"></label>
+        <label>Description <textarea name="description"></textarea></label>
+        <label>Asking Price <input name="property_price" type="number" step="0.01"></label>
+        <hr>
+        <h3>Owner/Contact Details</h3>
+        <label>Owner Name <input name="owner_name"></label>
+        <label>Contact Phone <input name="contact_phone" type="tel"></label>
+        <label>Email <input name="email" type="email"></label>
+        <hr>
+        <h3>Property Address</h3>
+        <label>Street Address <input name="property_address"></label>
+        <label>City <input name="property_city"></label>
+        <label>State <input name="property_state"></label>
+        <label>Zip Code <input name="property_zipcode"></label>
+    `
+},
+  project: {
+    title: 'Add Project',
+    fields: `
+      <label>Project Name <input name="project_name"></label>
+      <label>Type         <input name="project_type"></label>
+      <label>Bid Price    <input name="bid_price" type="number" step="0.01"></label>`
+  },
+  service: {
+    title: 'Add Service',
+    fields: `
+      <label>Service Name <input name="service_name"></label>
+      <label>Type         <input name="service_type"></label>
+      <label>Price        <input name="price" type="number" step="0.01"></label>`
+  },
+  product: {
+    title: 'Add Product',
+    fields: `
+      <label>Product Name <input name="product_name"></label>
+      <label>Description  <textarea name="description"></textarea></label>
+      <label>Price        <input name="price" type="number" step="0.01"></label>`
+  },
+  tag: {
+    title: 'Add Tag',
+    fields: `
+      <label>Tag Name  <input name="tag_name"></label>
+      <label>Description<textarea name="description"></textarea></label>`
+  },
+
+  post: {
+    title: 'Add Post',
+    fields: `
+      <label>Tag Name  <input name="tag_name"></label>
+      <label>Description<textarea name="description"></textarea></label>`
+  },
+  
+  category: {
+    title: 'Add Category',
+    fields: `
+      <label>Tag Name  <input name="tag_name"></label>
+      <label>Description<textarea name="description"></textarea></label>`
+  },
+  
+  task: {
+    title: 'Add Task',
+    fields: `
+      <label>Task Name <input name="task_name"></label>
+      <label>Description<textarea name="description"></textarea></label>
+      <label>Priority
+        <select name="priority">
+          <option>Low</option><option>Medium</option><option>High</option>
+        </select></label>`
+  }
+
+};
+
+/* click handler for every .add-btn */
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.add-btn');
+  if (!btn || !btn.dataset.modal) return;   // not our button
+  const key = btn.dataset.modal;
+  const tpl = formTemplates[key];
+  if (!tpl) return;
+
+  mTitle.textContent = tpl.title;
+  mInputs.innerHTML  = tpl.fields;
+  mForm.action = btn.dataset.action || '';  // optional override
+  modal.style.display = 'flex';
+  e.preventDefault();
+});
+
+/* close modal */
+mClose.onclick = () => modal.style.display = 'none';
+window.onclick   = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+</script>
+
+  <script>
+    // Simple accordion functionality
+    var acc = document.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+    }
+  </script>
+</html>

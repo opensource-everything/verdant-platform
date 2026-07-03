@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verdant – All Tables</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--bg:#f5f5f5;--bg2:#fff;--fg:#111;--accent:#007bff}
+[data-theme="dark"]{--bg:#111;--bg2:#1e1e1e;--fg:#eee;--accent:#0ff}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:var(--fg);display:flex;height:100vh}
+#sidebar{position:fixed;top:0;left:0;width:220px;height:100%;background:#000;color:#fff;padding:20px 0;overflow-y:auto}
+#sidebar a{display:block;padding:10px 20px;color:#ccc;text-decoration:none}
+#sidebar a:hover{background:var(--accent);color:#fff}
+#content{margin-left:220px;flex:1;padding:20px;overflow-y:auto}
+h2{margin:30px 0 10px;font-size:1.4em}
+table{width:100%;border-collapse:collapse;background:var(--bg2);border-radius:8px;overflow:hidden;margin-bottom:20px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #ddd}
+th{background:#eee}[data-theme="dark"] th{background:#222}
+.add-btn,button{margin:5px 5px 5px 0;padding:6px 12px;border:none;border-radius:4px;background:var(--accent);color:#fff;cursor:pointer}
+input,select{margin:2px;padding:4px}
+.toggle-dark{position:fixed;top:10px;right:10px;background:#333;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer;z-index:999}
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <h3 style="padding-left:20px;margin-top:0">Verdant</h3>
+  <a href="#Projects">Projects</a><a href="#Clients">Clients</a><a href="#Services">Services</a>
+  <a href="#Expenses">Expenses</a><a href="#Orders">Orders</a><a href="#Tasks">Tasks</a>
+</nav>
+
+<main id="content">
+<button class="toggle-dark" onclick="toggleDark()">🌓</button>
+<div id="tablesArea"></div>
+</main>
+
+<script>
+/* ---------- CONFIG ---------- */
+const CONFIG = {
+  Projects:   ['id','ProjectID','ProjectName','Type','Client','Status','StartDate','DueDate'],
+  Clients:    ['id','ClientID','Name','Contact','Address','TotalSpent'],
+  Services:   ['id','ServiceID','ServiceName','Description','Price']
+};
+const DEMO = {
+  Projects:[
+    {id:'P001',ProjectID:'P001',ProjectName:'Mexico Property',Type:'Rental',Client:'Karen',Status:'In Progress',StartDate:'2025-07-01',DueDate:'2025-07-31'}
+  ],
+  Clients:[
+    {id:'C001',ClientID:'C001',Name:'Karen Lopez',Contact:'karen@mail.com',Address:'4048 Sunset Dr',TotalSpent:12400}
+  ],
+  Services:[
+    {id:'S001',ServiceID:'S001',ServiceName:'3D Modeling',Description:'Full arch model',Price:2500}
+  ]
+};
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const uuid=()=>'id'+Math.random().toString(36).substr(2,9);
+function toggleDark(){
+  const root=document.documentElement;
+  const dark=root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme',dark?'light':'dark');
+  localStorage.setItem('theme',dark?'light':'dark');
+}
+(()=>{const t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();
+
+/* ---------- render ---------- */
+function renderTables(){
+  const area=$('#tablesArea'); area.innerHTML='';
+  Object.entries(CONFIG).forEach(([tableName,cols])=>{
+    const section=document.createElement('section'); section.id=tableName;
+    section.innerHTML=`
+      <h2>${tableName}</h2>
+      <button onclick="addRow('${tableName}')">Add ${tableName}</button>
+      <table data-name="${tableName}">
+        <thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}<th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>`;
+    area.appendChild(section);
+    const data=JSON.parse(localStorage.getItem(tableName)||'[]');
+    if(!data.length && DEMO[tableName]){localStorage.setItem(tableName,JSON.stringify(DEMO[tableName])); renderTable(tableName,DEMO[tableName]);}
+    else renderTable(tableName,data);
+  });
+}
+function renderTable(tableName,data){
+  const tbody=$(`table[data-name="${tableName}"] tbody`); tbody.innerHTML='';
+  data.forEach(row=>{
+    const tr=document.createElement('tr');
+    CONFIG[tableName].forEach(col=>{
+      const td=document.createElement('td'); td.textContent=row[col]||''; tr.appendChild(td);
+    });
+    const actions=document.createElement('td');
+    actions.innerHTML=`<button onclick="editRow('${tableName}','${row.id}')">Edit</button>
+                       <button onclick="delRow('${tableName}','${row.id}')">Del</button>`;
+    tr.appendChild(actions); tbody.appendChild(tr);
+  });
+}
+function addRow(tableName){
+  const cols=CONFIG[tableName]; const row={id:uuid()};
+  cols.forEach(c=>{if(c!=='id')row[c]=prompt(c)??'';});
+  const data=JSON.parse(localStorage.getItem(tableName)||'[]'); data.push(row);
+  localStorage.setItem(tableName,JSON.stringify(data)); renderTable(tableName,data);
+}
+function editRow(tableName,id){
+  const data=JSON.parse(localStorage.getItem(tableName)||'[]');
+  const row=data.find(r=>r.id===id);
+  if(!row)return;
+  CONFIG[tableName].forEach(c=>{if(c!=='id')row[c]=prompt(c,row[c])??row[c];});
+  localStorage.setItem(tableName,JSON.stringify(data)); renderTable(tableName,data);
+}
+function delRow(tableName,id){
+  if(!confirm('Delete?'))return;
+  let data=JSON.parse(localStorage.getItem(tableName)||'[]');
+  data=data.filter(r=>r.id!==id);
+  localStorage.setItem(tableName,JSON.stringify(data)); renderTable(tableName,data);
+}
+renderTables();
+</script>
+</body>
+</html>

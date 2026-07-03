@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+<body>
+
+    <div class="logo-section">
+        <h2>Verdant</h2>
+    </div>
+
+    <div class="dashboard-section">
+        <a href="{{ url_for('projects_dashboard') }}">Projects Dashboard</a>
+        <a href="{{ url_for('personal_ledger') }}">Account</a>
+        <a href="{{ url_for('CMS_dashboard') }}">Messages</a>
+        <a href="{{ url_for('CMS_dashboard') }}">Fleet</a>
+        <a href="{{ url_for('CMS_dashboard') }}">Projects</a>
+        <a href="{{ url_for('personal_ledger') }}">Ledger</a>
+        <a href="{{ url_for('file_tracker') }}">Profiles</a>
+        <a href="{{ url_for('add_service') }}">Job Trackers</a>
+        <a href="{{ url_for('workflow_automation') }}">Workflow Automation</a>
+        <a href="{{ url_for('folders_dashboard') }}">Job Listings</a>
+        <a href="{{ url_for('media') }}">Media Gallery</a>
+        <a href="{{ url_for('media') }}">Posts</a>
+        <a href="{{ url_for('tagging') }}">Tags</a>
+        <a href="{{ url_for('folders_dashboard') }}">Folders</a>
+        <a href="{{ url_for('CMS_dashboard') }}">CMS</a>
+        <a href="{{ url_for('CMS_dashboard') }}">CRM</a>
+        <a href="{{ url_for('folders_dashboard') }}">Settings</a>
+    </div>
+
+    <div class="main-content">
+        <div class="operation-section">
+            <button class="accordion">Meta Operations</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="{{ url_for('start_post_fusion') }}">Start PostFusion</a>
+                    <a href="{{ url_for('start_automation_agent_tasks') }}">Start Automation Agent Tasks</a>
+                    <a href="{{ url_for('start_backup_services') }}">Start Backup Services</a>
+                </div>
+            </div>
+
+            <button class="accordion">Folder Ops</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="#" class="launch-program" data-program="log_folder_clipboard">Log content of folder in clipboard</a>
+                    <a href="#" class="launch-program" data-program="zip_folders_2gb">ZIP folders into 2GB chunks</a>
+                </div>
+            </div>
+
+            <button class="accordion">Program Launcher</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="#" class="launch-program" data-program="blender_4_3">Blender 4.3</a>
+                    <a href="#" class="launch-program" data-program="blender_4_2">Blender 4.2</a>
+                    <a href="#" class="launch-program" data-program="touch_designer">Touch Designer</a>
+                    <a href="#" class="launch-program" data-program="after_effects">After Effects</a>
+                    <a href="#" class="launch-program" data-program="photoshop">Photoshop</a>
+                    <a href="#" class="launch-program" data-program="topaz_video_ai">Topaz Video AI</a>
+                    <a href="#" class="launch-program" data-program="topaz_image_ai">Topaz Image AI</a>
+                </div>
+            </div>
+
+            <button class="accordion">Stable Diffusion</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="#" class="launch-program" data-program="stable_diffusion">Launch Stable Diffusion</a>
+                    <a href="#" class="launch-program" data-program="easy_diffusion">Easy Diffusion Inpainting</a>
+                </div>
+            </div>
+
+            <button class="accordion">Crawlers</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="{{ url_for('crawl_instagram') }}">Crawl Instagram Profiles</a>
+                    <a href="{{ url_for('crawl_4chan') }}">Crawl 4Chan</a>
+                </div>
+            </div>
+
+            <button class="accordion">Workflow Automation</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="{{ url_for('download_clipboard_url') }}">Download content from clipboard URL</a>
+                    <a href="{{ url_for('analyze_clipboard_url') }}">Analyze URL in Clipboard</a>
+                    <a href="{{ url_for('save_folder_to_txt') }}">Save Folder to Text File</a>
+                    <a href="{{ url_for('add_folder_to_backups') }}">Add Folder to Backups from Clipboard</a>
+                    <a href="{{ url_for('organize_downloads') }}">Organize Downloads Folder</a>
+                    <a href="{{ url_for('image_border_crop_batch') }}">Image Border Cropper Batch</a>
+                    <a href="{{ url_for('zip_file_contents') }}">Zip File Contents</a>
+                    <a href="{{ url_for('file_contents_to_txt') }}">File Contents to Txt file</a>
+                </div>
+            </div>
+
+            <button class="accordion">Video Analyzation</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="{{ url_for('analyze_folders') }}">Analyze Folders</a>
+                    <a href="{{ url_for('analyze_video') }}">Analyze Video</a>
+                    <a href="{{ url_for('detect_bodies_video') }}">Detect Bodies in Video</a>
+                    <a href="{{ url_for('detect_faces_video') }}">Detect Faces in Video</a>
+                </div>
+            </div>
+
+            <button class="accordion">Favorite Folders</button>
+            <div class="panel">
+                <div class="operation-btns">
+                    <a href="{{ url_for('manage_favorite_folders') }}">Manage Favorite Folders</a>
+                </div>
+            </div>
+        </div>
+
+        <form class="settings-form" method="post">
+            <div class="checkbox-group">
+                <input type="checkbox" id="startupServices1" name="startupServices" checked>
+                <label for="startupServices1">Start services at program start</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="startupServices2" name="startupServices" checked>
+                <label for="startupServices2">Run services continuously</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="startupServices3" name="startupServices" checked>
+                <label for="startupServices3">Reboot services if shutdown</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="startupServices4" name="startupServices" checked>
+                <label for="startupServices4">Debug mode (continuous logging)</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="queue-section">
+        <div class="queues profiles-queue">
+            <h3>Profiles</h3>
+            <a class="add-btn" href="{{ url_for('add_profile') }}">Add Profile</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Profile ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Password</th>
+                        <th>Media</th>
+                        <th>Social Platform URLs</th>
+                        <th>Automation Jobs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for profile in profiles %}
+                    <tr>
+                        <td>{{ profile.profile_id }}</td>
+                        <td>{{ profile.first_name }}</td>
+                        <td>{{ profile.last_name }}</td>
+                        <td>{{ profile.username }}</td>
+                        <td>{{ profile.status }}</td>
+                        <td>{{ profile.role }}</td>
+                        <td>{{ profile.password }}</td>
+                        <td>{{ profile.media }}</td>
+                        <td>{{ profile.social_platform_urls }}</td>
+                        <td>{{ profile.automation_jobs }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues users-queue">
+            <h3>Users</h3>
+            <a class="add-btn" href="{{ url_for('add_user') }}">Add User</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                        <th>Folders</th>
+                        <th>Files</th>
+                        <th>Active Tasks</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Media</th>
+                        <th>Social Platform URLs</th>
+                        <th>Automation Jobs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.platform }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.folders }}</td>
+                        <td>{{ user.files }}</td>
+                        <td>{{ user.active_tasks }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.media }}</td>
+                        <td>{{ user.social_platform_urls }}</td>
+                        <td>{{ user.automation_jobs }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues logins-queue">
+            <h3>Logins</h3>
+            <a class="add-btn" href="{{ url_for('add_login') }}">Add Login</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Login ID</th>
+                        <th>Owner Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Password</th>
+                        <th>Platform URL</th>
+                        <th>Task Queue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for login in logins %}
+                    <tr>
+                        <td>{{ login.login_id }}</td>
+                        <td>{{ login.owner_name }}</td>
+                        <td>{{ login.username }}</td>
+                        <td>{{ login.email }}</td>
+                        <td>{{ login.status }}</td>
+                        <td>{{ login.password }}</td>
+                        <td>{{ login.platform_url }}</td>
+                        <td>{{ login.task_queue }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues orders-queue">
+            <h3>Orders</h3>
+            <a class="add-btn" href="{{ url_for('add_order') }}">Add Order</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer ID</th>
+                        <th>Item ID</th>
+                        <th>Qty</th>
+                        <th>SubTotal</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date Created</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.order_id }}</td>
+                        <td>{{ order.customer_id }}</td>
+                        <td>{{ order.item_id }}</td>
+                        <td>{{ order.qty }}</td>
+                        <td>{{ order.subtotal }}</td>
+                        <td>{{ order.total }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>{{ order.date_created }}</td>
+                        <td>{{ order.date_updated }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues expenses-queue">
+            <h3>Expenses</h3>
+            <a class="add-btn" href="{{ url_for('add_expense') }}">Add Item</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Expense Category</th>
+                        <th>Date Purchased</th>
+                        <th>Price</th>
+                        <th>Automations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.item_id }}</td>
+                        <td>{{ expense.expense_category }}</td>
+                        <td>{{ expense.date_purchased }}</td>
+                        <td>{{ expense.price }}</td>
+                        <td>{{ expense.automations }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues captured-urls-queue">
+            <h3>Captured URLs</h3>
+            <a class="add-btn" href="{{ url_for('add_post') }}">Add Post +</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Media</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                        <th>Automations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for captured_url in captured_urls %}
+                    <tr>
+                        <td>{{ captured_url.url }}</td>
+                        <td>{{ captured_url.media }}</td>
+                        <td>{{ captured_url.platform }}</td>
+                        <td>{{ captured_url.status }}</td>
+                        <td>{{ captured_url.automations }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues posts-schedule-queue">
+            <h3>Posts Schedule</h3>
+            <a class="add-btn" href="{{ url_for('add_post') }}">Add Post +</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Caption</th>
+                        <th>Media</th>
+                        <th>Platform</th>
+                        <th>Scheduled Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scheduled_post in scheduled_posts %}
+                    <tr>
+                        <td>{{ scheduled_post.caption }}</td>
+                        <td>{{ scheduled_post.media }}</td>
+                        <td>{{ scheduled_post.platform }}</td>
+                        <td>{{ scheduled_post.scheduled_time }}</td>
+                        <td>{{ scheduled_post.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="queues automation-agent-queue">
+            <h3>Automation Agent Queue</h3>
+            <a class="add-btn" href="{{ url_for('add_agent_task') }}">Add Agent Task +</a>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Screen Captures</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for agent_task in agent_tasks %}
+                    <tr>
+                        <td>{{ agent_task.task }}</td>
+                        <td>{{ agent_task.screen_captures }}</td>
+                        <td>{{ agent_task.platform }}</td>
+                        <td>{{ agent_task.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="category-table">
+            <div class="table-header">
+                <h3>Categories</h3>
+                <a class="add-btn" href="{{ url_for('add_category') }}">Add Category +</a><br>
+                <p>You can tag different items with custom categories you define.</p>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Category ID</th>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                        <th>Parent Category ID</th>
+                        <th>Is Active</th>
+                        <th>Date Created</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{ category.category_id }}</td>
+                        <td>{{ category.category_name }}</td>
+                        <td>{{ category.description }}</td>
+                        <td>{{ category.parent_category_id }}</td>
+                        <td>{{ category.is_active }}</td>
+                        <td>{{ category.date_created }}</td>
+                        <td>{{ category.date_updated }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="client-table">
+            <div class="table-header">
+                <h3>Clients</h3>
+                <a class="add-btn" href="{{ url_for('add_client') }}">Add Client</a><br>
+                <p>Add basic client information.</p>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Client ID</th>
+                        <th>Client Name</th>
+                        <th>Address ID</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Description</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.client_id }}</td>
+                        <td>{{ client.client_name }}</td>
+                        <td>{{ client.address_id }}</td>
+                        <td>{{ client.phone_number }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.description }}</td>
+                        <td>{{ client.date_updated }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="property-table">
+            <div class="table-header">
+                <h3>Properties</h3>
+                <a class="add-btn" href="{{ url_for('add_property') }}">Add Property</a><br>
+                <p>Add property information.</p>
+            </div>
+            <table class="data-table">
+                <thead>

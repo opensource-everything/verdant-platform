@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimized Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h3 {
+            color: #444;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            margin: 0;
+        }
+
+        .section-header .add-btn {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .section-header .add-btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Clients Section -->
+        <div class="section" id="clients-section">
+            <div class="section-header">
+                <h3>Clients</h3>
+                <a class="add-btn" href="{{ url_for('add_client') }}">Add Client</a>
+            </div>
+            <p class="description">Add and manage client information, including project history and total spend.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Client ID</th>
+                        <th>Client Name</th>
+                        <th>Address</th>
+                        <th>Current Projects</th>
+                        <th>Past Projects</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.id }}</td>
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.current_projects }}</td>
+                        <td>{{ client.past_projects }}</td>
+                        <td>{{ client.total_spent }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="section" id="projects-section">
+            <div class="section-header">
+                <h3>Projects</h3>
+                <a class="add-btn" href="{{ url_for('add_project') }}">Add Project</a>
+            </div>
+            <p class="description">Manage ongoing and past projects, including costs and deadlines.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project ID</th>
+                        <th>Project Name</th>
+                        <th>Type</th>
+                        <th>Client</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td>{{ project.id }}</td>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.type }}</td>
+                        <td>{{ project.client }}</td>
+                        <td>{{ project.start_date }}</td>
+                        <td>{{ project.due_date }}</td>
+                        <td>{{ project.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Employees Section -->
+        <div class="section" id="employees-section">
+            <div class="section-header">
+                <h3>Employees</h3>
+                <a class="add-btn" href="{{ url_for('add_employee') }}">Add Employee</a>
+            </div>
+            <p class="description">Track employee roles, schedules, and tasks.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Hire Date</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.id }}</td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.role }}</td>
+                        <td>{{ employee.hire_date }}</td>
+                        <td>{{ employee.salary }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Financials Section -->
+        <div class="section" id="financials-section">
+            <div class="section-header">
+                <h3>Financials</h3>
+                <a class="add-btn" href="{{ url_for('add_ledger') }}">Add Ledger</a>
+            </div>
+            <p class="description">Manage ledgers and expenses for better financial tracking.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ledger ID</th>
+                        <th>Ledger Name</th>
+                        <th>Owner</th>
+                        <th>Total Amount</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ledger in ledgers %}
+                    <tr>
+                        <td>{{ ledger.id }}</td>
+                        <td>{{ ledger.name }}</td>
+                        <td>{{ ledger.owner }}</td>
+                        <td>{{ ledger.total_amount }}</td>
+                        <td>{{ ledger.date_updated }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tasks Section -->
+        <div class="section" id="tasks-section">
+            <div class="section-header">
+                <h3>Tasks</h3>
+                <a class="add-btn" href="{{ url_for('add_task') }}">Add Task</a>
+            </div>
+            <p class="description">Assign and track tasks across teams and employees.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task ID</th>
+                        <th>Task Name</th>
+                        <th>Assigned To</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.id }}</td>
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.assigned_to }}</td>
+                        <td>{{ task.priority }}</td>
+                        <td>{{ task.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

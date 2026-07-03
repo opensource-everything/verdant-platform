@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Client</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+
+        .address-section {
+            position: absolute;
+/*            top: 50px;*/
+            left: 200px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+    <h1>Add Client</h1>
+
+    <div class="client-form-section">
+
+        <div class="address-section">
+            <form method="post">
+
+                <label for="street">Street</label><br>
+                <input type="text" id="street" name="street"><br><br>
+
+                <label for="unit">Unit, Space, or Apartment #</label><br>
+                <input type="text" id="unit" name="unit"><br><br>
+
+                <label for="city">City</label><br>
+                <input type="text" id="city" name="city"><br><br>
+                
+                <label for="state">State</label><br>
+                <input type="text" id="state" name="state"><br><br>
+                
+                <label for="zipcode">Zipcode</label><br>
+                <input type="text" id="zipcode" name="zipcode"><br><br>            
+
+            </form>
+        </div>
+
+        <div class="info-section">    
+            <form method="post">
+                <label for="client_name">Client Name</label><br>
+                <input type="text" id="client_name" name="client_name"><br><br>
+
+                <label for="client_number">Phone Number</label><br>
+                <input type="text" id="client_number" name="client_number"><br><br>
+                
+                <label for="client_email">Email</label><br>
+                <input type="text" id="client_email" name="client_email"><br><br>
+                
+                <label for="notes">Notes</label><br>
+                <textarea id="notes" name="notes"></textarea><br><br>
+
+                <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+                <label for="use_random_id">Use Random ID</label><br><br>
+
+                <label for="client_id">Client ID</label><br>
+                <input type="text" id="client_id" name="client_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>

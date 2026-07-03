@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Folder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        /* Style for the parent container (body or other) */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;  /* Makes sure the body takes up the full viewport height */
+  margin: 0;  /* Remove default margin */
+}
+
+/* Center the folder-form element */
+.folder-form {
+  width: 300px;  /* Optional: set a width if needed */
+  height: auto;  /* Adjust height as needed */
+}
+
+
+label {
+    font-size: 19px;
+}
+
+input {
+    font-size: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="folder-form">
+        <h1>Folder</h1>
+        <form method="post">
+
+            <label for="folder_path">Folder Path</label><br>
+            <input type="text" id="folder_path" name="folder_path"><br><br>
+
+            <label for="folder_name">Folder Name</label><br>
+            <input type="text" id="folder_name" name="folder_name"><br><br>
+
+            <label for="category_name">Category</label><br>
+            <input type="text" id="category_name" name="category_name"><br><br>
+
+            <label for="description">Description</label><br>
+            <textarea id="description" name="description"></textarea><br><br>
+
+            <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+
+            <label for="use_random_id">Use Random ID</label><br><br>
+            <!-- <label for="product_id">Product ID:</label><br> -->
+
+            <!-- <input type="text" id="product_id" name="product_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br> -->
+
+
+            <input type="submit" value="Add Folder +">
+        </form>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verdant – Unified Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --bg:#f5f5f5; --bg2:#fff; --fg:#111; --accent:#007bff;
+}
+[data-theme="dark"]{
+  --bg:#111; --bg2:#1e1e1e; --fg:#eee; --accent:#0ff;
+}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:var(--fg);display:flex;height:100vh}
+#sidebar{position:fixed;top:0;left:0;width:220px;height:100%;background:#000;color:#fff;overflow-y:auto;padding:70px 0 20px}
+#sidebar a{display:block;padding:10px 20px;color:#ccc;text-decoration:none;transition:.2s}
+#sidebar a:hover{background:var(--accent);color:#fff}
+#content{margin-left:220px;flex:1;padding:20px;overflow-y:auto}
+h2{margin:0 0 10px}
+table{width:100%;border-collapse:collapse;background:var(--bg2);border-radius:8px;overflow:hidden;margin-bottom:20px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #ddd}
+th{background:#eee}
+[data-theme="dark"] th{background:#222}
+.add-btn{display:inline-block;margin-bottom:10px;background:var(--accent);color:#fff;padding:8px 14px;border-radius:4px;text-decoration:none}
+.accordion{background:#333;color:#fff;width:100%;border:none;padding:12px;text-align:left;cursor:pointer;margin-top:10px;border-radius:4px}
+.panel{display:none;background:var(--bg2);padding:10px;border-radius:0 0 4px 4px;margin-bottom:10px}
+.accordion.active+.panel{display:block}
+#searchBox{width:100%;padding:10px;margin-bottom:20px;border-radius:4px;border:1px solid #ccc}
+.toggle-dark{position:fixed;top:10px;right:10px;background:#333;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer;z-index:999}
+</style>
+</head>
+<body>
+<!-- ---------- Sidebar ---------- -->
+<nav id="sidebar">
+  <h3 style="padding-left:20px;margin-top:0">Verdant</h3>
+  <a href="#projects">Projects Dashboard</a>
+  <a href="#account">Account</a>
+  <a href="#messages">Messages</a>
+  <a href="#fleet">Fleet</a>
+  <a href="#jobListings">Job Listings</a>
+  <a href="#media">Media Gallery</a>
+  <a href="#posts">Posts</a>
+  <a href="#tags">Tags</a>
+  <a href="#folders">Folders</a>
+  <a href="#cms">CMS</a>
+  <a href="#crm">CRM</a>
+  <a href="#settings">Settings</a>
+</nav>
+
+<!-- ---------- Main ---------- -->
+<main id="content">
+  <!-- Dark-mode toggle -->
+  <button class="toggle-dark" onclick="toggleDark()">🌓</button>
+
+  <!-- Global search -->
+  <input id="searchBox" placeholder="Type to filter every table…">
+
+  <!-- Accordion sections -->
+  <button class="accordion">Meta Operations</button>
+  <div class="panel">
+    <a class="add-btn" href="#postfusion">Start PostFusion</a>
+    <a class="add-btn" href="#automation">Start Automation Agent Tasks</a>
+    <a class="add-btn" href="#backup">Start Backup Services</a>
+  </div>
+
+  <button class="accordion">Program Launcher</button>
+  <div class="panel">
+    <a class="add-btn" onclick="alert('Launching Blender 4.3')">Blender 4.3</a>
+    <a class="add-btn" onclick="alert('Launching TouchDesigner')">TouchDesigner</a>
+    <a class="add-btn" onclick="alert('Launching AE')">After Effects</a>
+    <a class="add-btn" onclick="alert('Launching Photoshop')">Photoshop</a>
+    <a class="add-btn" onclick="alert('Launching Topaz Video AI')">Topaz Video AI</a>
+  </div>
+
+  <!-- Settings -->
+  <button class="accordion">Settings</button>
+  <div class="panel">
+    <label><input type="checkbox" checked> Start services on boot</label><br>
+    <label><input type="checkbox" checked> Run continuously</label><br>
+    <label><input type="checkbox"> Debug mode</label>
+  </div>
+
+  <!-- ---------- Tables ---------- -->
+  <section id="tables">
+    <!-- Example: Projects -->
+    <h2>Projects</h2>
+    <a class="add-btn" href="#addProject">Add Project +</a>
+    <table data-name="Projects">
+      <thead><tr>
+        <th>Project ID</th><th>Name</th><th>Type</th><th>Client</th><th>Status</th><th>Start Date</th><th>Due Date</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>P001</td><td>Mexico Property</td><td>Rental</td><td>Karen</td><td>In Progress</td><td>2025-07-01</td><td>2025-07-31</td></tr>
+        <tr><td>P002</td><td>Office Renovation</td><td>Commercial</td><td>Acme Inc</td><td>Planning</td><td>2025-08-15</td><td>2025-10-15</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Clients</h2>
+    <a class="add-btn" href="#addClient">Add Client +</a>
+    <table data-name="Clients">
+      <thead><tr>
+        <th>Client ID</th><th>Name</th><th>Contact</th><th>Address</th><th>Total Spent</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>C001</td><td>Karen Lopez</td><td>karen@mail.com</td><td>4048 Sunset Dr</td><td>$12 400</td></tr>
+        <tr><td>C002</td><td>Acme Inc</td><td>info@acme.com</td><td>123 Business Rd</td><td>$35 000</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Services</h2>
+    <a class="add-btn" href="#addService">Add Service +</a>
+    <table data-name="Services">
+      <thead><tr>
+        <th>Service ID</th><th>Service Name</th><th>Description</th><th>Price ($)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>S001</td><td>3D Modeling</td><td>Full architectural model</td><td>2 500</td></tr>
+        <tr><td>S002</td><td>Rendering</td><td>High-res stills & animation</td><td>1 800</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Expenses</h2>
+    <a class="add-btn" href="#addExpense">Add Expense +</a>
+    <table data-name="Expenses">
+      <thead><tr>
+        <th>Expense ID</th><th>Item</th><th>Category</th><th>Price ($)</th><th>Date</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>E001</td><td>Plywood sheets</td><td>Material</td><td>320</td><td>2025-07-20</td></tr>
+        <tr><td>E002</td><td>Rendering farm</td><td>Service</td><td>150</td><td>2025-07-22</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Duplicate / rename blocks for Orders, Inventory, Tasks, etc. -->
+  </section>
+</main>
+
+<script>
+/* -------- Accordion -------- */
+document.querySelectorAll('.accordion').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('active');
+    const panel = btn.nextElementSibling;
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+  });
+});
+
+/* -------- Dark mode -------- */
+function toggleDark(){
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme', isDark?'light':'dark');
+  localStorage.setItem('theme', isDark?'light':'dark');
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+/* -------- Global search -------- */
+document.getElementById('searchBox').addEventListener('input', e=>{
+  const term = e.target.value.toLowerCase();
+  document.querySelectorAll('table tbody tr').forEach(row=>{
+    const txt = row.textContent.toLowerCase();
+    row.style.display = txt.includes(term) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

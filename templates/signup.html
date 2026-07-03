@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .flash-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .btn-submit {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background: #45a049;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create Account</h1>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <form method="POST" action="{{ url_for('signup') }}">
+        <!-- Username -->
+        <div class="form-group">
+            <label for="username">Username *</label>
+            <input type="text" id="username" name="username" 
+                   value="{{ form_data.get('username', '') if form_data else '' }}"
+                   required minlength="3"
+                   placeholder="Choose a unique username">
+            <small>Only letters, numbers, and underscores allowed</small>
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" 
+                   value="{{ form_data.get('email', '') if form_data else '' }}"
+                   required
+                   placeholder="your@email.com">
+        </div>
+        
+        <!-- Password Fields -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" 
+                       required minlength="8"
+                       placeholder="Min 8 characters">
+                <small>At least 8 chars with uppercase, lowercase, and number</small>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password *</label>
+                <input type="password" id="confirm_password" name="confirm_password" 
+                       required
+                       placeholder="Re-enter password">
+            </div>
+        </div>
+        
+        <!-- Name Fields -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first_name">First Name *</label>
+                <input type="text" id="first_name" name="first_name" 
+                       value="{{ form_data.get('first_name', '') if form_data else '' }}"
+                       required
+                       placeholder="John">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name *</label>
+                <input type="text" id="last_name" name="last_name" 
+                       value="{{ form_data.get('last_name', '') if form_data else '' }}"
+                       required
+                       placeholder="Doe">
+            </div>
+        </div>
+        
+        <!-- Phone Number -->
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input type="tel" id="phone_number" name="phone_number" 
+                   value="{{ form_data.get('phone_number', '') if form_data else '' }}"
+                   placeholder="+1 234 567 8900">
+            <small>Optional - include country code</small>
+        </div>
+        
+        <!-- Role -->
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role">
+                <option value="user" selected>User</option>
+                <option value="admin">Administrator</option>
+                <option value="moderator">Moderator</option>
+                <option value="guest">Guest</option>
+            </select>
+            <small>Default is 'user' if not selected</small>
+        </div>
+        
+        <!-- Bio -->
+        <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio" 
+                      placeholder="Tell us about yourself...">{{ form_data.get('bio', '') if form_data else '' }}</textarea>
+            <small>Optional - brief description about yourself</small>
+        </div>
+        
+        <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+    
+    <p style="margin-top: 20px;">
+        Already have an account? <a href="{{ url_for('login') }}">Login</a>
+    </p>
+    
+    <small>* Required fields</small>
+    
+    <script>
+        // Password confirmation validation
+        document.getElementById('confirm_password').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            if (this.value && this.value !== password) {
+                this.style.borderColor = 'red';
+            } else {
+                this.style.borderColor = '#ddd';
+            }
+        });
+        
+        document.getElementById('password').addEventListener('input', function() {
+            const confirm = document.getElementById('confirm_password').value;
+            if (confirm && confirm !== this.value) {
+                document.getElementById('confirm_password').style.borderColor = 'red';
+            } else if (confirm) {
+                document.getElementById('confirm_password').style.borderColor = '#ddd';
+            }
+        });
+    </script>
+</body>
+</html>

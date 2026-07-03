@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Add Product</h1>
+    <form method="post">
+        <label for="product_name">Service Name:</label><br>
+        <input type="text" id="product_name" name="product_name"><br><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"></textarea><br><br>
+        <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+        <label for="use_random_id">Use Random Product ID</label><br><br>
+        <label for="product_id">Product ID:</label><br>
+        <input type="text" id="product_id" name="product_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .form-container {
+        display: flex;
+        gap: 20px;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 5px;
+      }
+      .section {
+        width: 400px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+      label {
+        font-size: 18px;
+        display: block;
+        margin-top: 10px;
+      }
+      input, textarea, select {
+        font-size: 18px;
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+      }
+      textarea {
+        height: 80px;
+        resize: vertical;
+      }
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .checkbox-group input {
+        width: auto;
+        margin-right: 10px;
+      }
+      .submit-btn {
+        width: 100%;
+        margin-top: 15px;
+        padding: 10px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="section">
+      <h1>Add Service</h1>
+      <form method="post">
+        <label for="service_name">Service Name</label>
+        <input type="text" id="service_name" name="service_name">
+
+        <label for="service_price">Price</label>
+        <input type="text" id="service_price" name="service_price">
+        
+        <label for="service_type">Service Type</label>
+        <select id="service_type" name="service_type">
+          <option value="maintenance">Maintenance</option>
+          <option value="one-off">One-Off</option>
+          <option value="construction">Construction</option>
+        </select>
+        
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+          <label for="use_random_id">Use Random ID</label>
+        </div>
+
+        <label for="service_id">Service ID:</label>
+        <input type="text" id="service_id" name="service_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}">
+
+        <input class="submit-btn" type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+</body>
+</html>

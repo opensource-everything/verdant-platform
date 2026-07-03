@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .post-section {
+            margin: 10px;
+            padding: 10px;
+        }
+        
+        .drop-zone {
+            border: solid 1px;
+            width: 200px;
+            height: 100px;
+            border-radius: 1em;
+        }
+
+        .drop-zone:hover {
+            border: dotted 1px;
+        }
+
+        .drop-zone > p {
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .post-form {
+            width: 500px;
+            /* margin: 10px; */
+            /* padding: 10px; */
+        }
+        
+        .caption-input-section, .tag-input-section, .platform-selection {
+            /* margin: 10px;
+            padding: 10px; */
+            
+            
+        }
+        
+        label {
+            padding: 5px;
+            margin: 5px;
+        }
+        
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+
+        
+        ul {
+            list-style-type: none;
+            padding: 4px;
+            margin: 4px;
+        }
+
+        .nav-bar {
+            position: absolute;
+            top: 2em;
+        }
+
+        .nav-bar ul li {
+            padding: 3px;
+            margin: 4px;
+        }
+
+        .nav-bar ul li a {
+            text-decoration: none;
+            
+        }
+
+        .service-section {
+            position: absolute;
+            top: 1em;
+            left: 7.5em;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-bar">
+        <ul>
+            <li><a href="">Services</a></li>
+            <li><a href="">Tasks</a></li>
+            <li><a href="">Employees</a></li>
+            <li><a href="">Teams</a></li>
+            <li><a href="">Products</a></li>
+            <li><a href="">Posts</a></li>
+            <li><a href="">Projects</a></li>
+        </ul>
+    </nav>
+
+    
+    <div class="service-section">
+        <h1>Services</h1>
+        
+
+        <form action="">
+            <label  for="post-caption">Service Name</label><br>
+            <input type="text" id="post-caption"><br>
+            <label for="post-caption">Tags</label><br>
+            <input type="text"><br>
+
+            <label for="post-caption">Platforms to post to</label><br>
+            <select id="fruitSelect" multiple>
+                <option value="facebook">Facebook</option>
+                <option value="twitter">Twitter</option>
+                <option value="ebay">Ebay</option>
+            </select>
+
+        </form>
+        
+        
+    </div>
+    
+    <div class="tasks">
+        <h1>Services</h1>
+        <!-- 
+            <label for="taks-name">Task Name:</label><br> 
+            <input type="text" id="task_name" name="task_name"><br><br>
+        -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Service ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Complete Report</td>
+                    <td>Write and submit quarterly report</td>
+                    <td>Alpha Team, Bravo Team</td>
+                    <td>High</td>
+                    <td>In Progress</td>
+                    <td>2024-03-25</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Review Proposal</td>
+                    <td>Review and provide feedback on proposal draft</td>
+                    <td>Jane Smith</td>
+                    <td>Medium</td>
+                    <td>Not Started</td>
+                    <td>2024-03-30</td>
+                </tr>
+                <!-- Additional rows for other tasks -->
+            </tbody>
+        </table>
+        
+
+    </div>
+
+    <h1>Departments</h1>
+    <!-- 
+
+        <label for="taks-name">Task Name:</label><br>
+        <input type="text" id="task_name" name="task_name"><br><br>
+    -->
+    <table>
+        <thead>
+            <tr>
+                <th>Dept ID</th>
+                <th>Department Name</th>
+                <th>Teams</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Marketing</td>
+                <td>Charlie, Bravo</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Sales</td>
+                <td>Grey Team, Blue Team</td>
+            </tr>
+            <!-- Additional rows for other tasks -->
+        </tbody>
+    </table>
+
+    <h1>Teams</h1>
+    <!-- 
+
+        <label for="taks-name">Task Name:</label><br>
+        <input type="text" id="task_name" name="task_name"><br><br>
+    -->
+    <table>
+        <thead>
+            <tr>
+                <th>Team ID</th>
+                <th>Team Name</th>
+                <th>Team Members</th>
+                <th>Tasks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Alpha</td>
+                <td>Fred, Amanda, Taylor</td>
+                <td>Clean Up</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Beta</td>
+                <td>George, Moe, Jerry</td>
+                <td>Customer Service</td>
+            </tr>
+            <!-- Additional rows for other tasks -->
+        </tbody>
+    </table>
+
+    <h1>Employees</h1>
+    <!-- 
+
+        <label for="taks-name">Task Name:</label><br>
+        <input type="text" id="task_name" name="task_name"><br><br>
+    -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>DOB</th>
+                <th>Contract</th>
+                <th>Insurance</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>Daley</td>
+                <td>9/12/96</td>
+                <td><a href="">click here</a></td>
+                <td><a href="">click here</a></td>
+                <td><a href="">click here</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jimmy</td>
+                <td>Jones</td>
+                <td>2/2/97</td>
+                <td><a href="">click here</a></td>
+                <td><a href="">click here</a></td>
+                <td><a href="">click here</a></td>
+            </tr>
+            <!-- Additional rows for other tasks -->
+        </tbody>
+    </table>
+
+
+
+
+</body>
+</html>

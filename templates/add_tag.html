@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Tag</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        /* Center the form on the screen */
+        .modal-popup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .modal-popup-element {
+            display: inline-block;
+            border: 2px solid #333;
+            border-radius: 1em;
+            padding: 20px;
+            margin: 20px;
+            width: 350px; /* Set fixed width for form */
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .input-section, .check-box-inputs {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 8px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+
+        .check-box-inputs input {
+            margin-right: 10px;
+        }
+
+        .check-box-inputs {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal-popup-container">
+    <div class="modal-popup-element">
+        <h1>Add Tag</h1>
+        <form method="post">
+            <!-- Tag Name Input -->
+            <div class="input-section">
+                <label for="tag_name">Tag Name</label>
+                <input type="text" id="tag_name" name="tag_name" required>
+            </div>
+
+            <!-- Description Input -->
+            <div class="input-section">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+
+            <!-- Checkbox for Random ID -->
+            <div class="check-box-inputs">
+                <input type="checkbox" id="tag_id" name="tag_id" value="1" checked>
+                <label for="tag_id">Use Random ID</label>
+            </div>
+
+            <!-- Tag ID Input (only shown if random ID isn't checked) -->
+            <div class="input-section" id="tag_id_input" style="display:none;">
+                <label for="tag_id">Tag ID</label>
+                <input type="text" id="tag_id" name="tag_id">
+            </div>
+
+            <!-- Submit Button -->
+            <input class="submit-btn" type="submit" value="Add Tag +">
+        </form>
+    </div>
+</div>
+
+<script>
+    // Show or hide the Tag ID input based on the checkbox
+    document.getElementById('use_random_id').addEventListener('change', function() {
+        var tagIdInput = document.getElementById('tag_id_input');
+        if (this.checked) {
+            tagIdInput.style.display = 'none';
+        } else {
+            tagIdInput.style.display = 'block';
+        }
+    });
+</script>
+
+</body>
+</html>

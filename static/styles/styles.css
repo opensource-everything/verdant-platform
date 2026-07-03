@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.dark-theme {
+    background-color: #222;
+    color: #fff;
+}
+
+h1 {
+    color: #f00; /* Change the heading color as needed */
+}
+
+
+a {
+    font-size: 12px;
+    text-decoration: none;
+    text-align: center;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 0.4em;
+    border-style: solid;
+    border-width: 0.1em;
+    background-color: #f44336;
+    display: inline-block;
+    padding: 6px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+button {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #0ff; /* Change link color as needed */
+    display: block;
+    margin-top: 20px;
+}

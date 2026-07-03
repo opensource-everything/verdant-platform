@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tag Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        .tag-manager {
+            display: flex;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        .sidebar-nav { width: 240px; flex-shrink: 0; }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            max-width: 800px;
+        }
+        h1 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+
+        /* Search */
+        .search-box {
+            margin-bottom: 1.5rem;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* Add Form */
+        .add-tag-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        .add-tag-form input {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            flex: 1;
+        }
+        .add-tag-form button {
+            padding: 8px 16px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Tags List */
+        .tags-list {
+            list-style: none;
+            padding: 0;
+        }
+        .tag-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: box-shadow 0.2s;
+        }
+        .tag-item:hover {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .tag-color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            margin-right: 12px;
+            border: 1px solid #ddd;
+        }
+        .tag-name {
+            flex: 1;
+            font-size: 1.1rem;
+            margin: 0 10px;
+            font-weight: 500;
+        }
+        .tag-name[contenteditable="true"] {
+            background: #fff;
+            border: 1px dashed #ccc;
+            padding: 4px 8px;
+            border-radius: 4px;
+            outline: none;
+        }
+        .tag-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .tag-actions button {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .edit-btn { background: #f39c12; color: white; }
+        .save-btn { background: #27ae60; color: white; }
+        .delete-btn { background: #e74c3c; color: white; }
+        .color-btn { background: #95a5a6; color: white; }
+
+        .empty-state {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        /* Color Picker Popup */
+        .color-picker-popup {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+        .color-picker-popup input {
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="tag-manager">
+        <div class="sidebar-nav">
+            {% include "partials/_dashboard_nav.html" %}
+        </div>
+
+        <div class="main-content">
+            <h1>Tag Manager</h1>
+
+            <!-- Search -->
+            <div class="search-box">
+                <input type="text" id="tagSearch" placeholder="Search tags...">
+            </div>
+
+            <!-- Add Form -->
+            <form class="add-tag-form" method="POST" action="{{ url_for('add_tag') }}">
+                <input type="text" name="tag_name" placeholder="New tag name" required minlength="1" maxlength="50">
+                <button type="submit">Add Tag</button>
+            </form>
+
+            <!-- Tags List -->
+            {% if tags %}
+                <ul class="tags-list" id="tagsList">
+                {% for tag in tags %}
+                    <li class="tag-item" data-tag-id="{{ tag.id }}" data-tag-name="{{ tag.name }}" style="background-color: {{ tag.color }}20;">
+                        <div class="tag-color-preview" style="background-color: {{ tag.color }};"></div>
+                        <span class="tag-name" data-original="{{ tag.name }}">{{ tag.name }}</span>
+                        <div class="tag-actions">
+                            <button class="color-btn" onclick="showColorPicker(this)">Color</button>
+                            <button class="edit-btn" onclick="enableEdit(this)">Edit</button>
+                            <form method="POST" action="{{ url_for('delete_tag', tag_id=tag.id) }}" style="display:inline;">
+                                <button type="submit" class="delete-btn" onclick="return confirm('Delete tag? This cannot be undone.')">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">No tags yet. Add your first tag above!</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Hidden color picker (reused) -->
+    <div id="colorPickerPopup" class="color-picker-popup" style="display:none;"></div>
+
+    <script>
+        // === SEARCH ===
+        document.getElementById('tagSearch').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.tag-item').forEach(item => {
+                const name = item.dataset.tagName.toLowerCase();
+                item.style.display = name.includes(term) ? '' : 'none';
+            });
+        });
+
+        // === EDIT NAME ===
+        function enableEdit(button) {
+            const li = button.closest('.tag-item');
+            const span = li.querySelector('.tag-name');
+            const originalText = span.textContent;
+            const tagId = li.dataset.tagId;
+
+            span.contentEditable = true;
+            span.focus();
+            button.textContent = 'Save';
+            button.classList.replace('edit-btn', 'save-btn');
+            button.onclick = () => saveEdit(span, tagId, originalText, button);
+        }
+
+        function saveEdit(span, tagId, originalText, button) {
+            const newName = span.textContent.trim();
+            if (!newName || newName === originalText) {
+                cancelEdit(span, originalText, button);
+                return;
+            }
+
+            // Get current color from preview
+            const colorPreview = span.closest('.tag-item').querySelector('.tag-color-preview');
+            const currentColor = colorPreview.style.backgroundColor;
+            // Convert rgb() to hex if needed (simplified: assume we store hex)
+            // In practice, we keep color in dataset or fetch from server—but here we'll store in data attr
+            const color = span.closest('.tag-item').dataset.tagColor || "#3498db";
+
+            fetch(`/tags/${tagId}/update`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: newName, color: color})
+            })
+            .then(r => r.json())
+            .then(data => {
+                span.textContent = data.name;
+                span.closest('.tag-item').dataset.tagName = data.name;
+                span.closest('.tag-item').dataset.tagColor = data.color;
+                colorPreview.style.backgroundColor = data.color;
+                span.closest('.tag-item').style.backgroundColor = data.color + '20';
+                cancelEdit(span, data.name, button);
+            })
+            .catch(() => {
+                alert('Update failed.');
+                cancelEdit(span, originalText, button);
+            });
+        }
+
+        function cancelEdit(span, originalText, button) {
+            span.textContent = originalText;
+            span.contentEditable = false;
+            button.textContent = 'Edit';
+            button.classList.replace('save-btn', 'edit-btn');
+            button.onclick = () => enableEdit(button);
+        }
+
+        // === COLOR PICKER ===
+        let currentColorTarget = null;
+        function showColorPicker(button) {
+            const li = button.closest('.tag-item');
+            const preview = li.querySelector('.tag-color-preview');
+            const currentColor = li.dataset.tagColor || "#3498db";
+            currentColorTarget = li;
+
+            const popup = document.getElementById('colorPickerPopup');
+            popup.innerHTML = `<input type="color" value="${currentColor}">`;
+            const colorInput = popup.querySelector('input');
+            
+            // Position popup near button
+            const rect = button.getBoundingClientRect();
+            popup.style.left = rect.left + 'px';
+            popup.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+            popup.style.display = 'block';
+
+            colorInput.addEventListener('input', () => {
+                const newColor = colorInput.value;
+                preview.style.backgroundColor = newColor;
+                li.style.backgroundColor = newColor + '20';
+                li.dataset.tagColor = newColor;
+            });
+
+            // Auto-hide on click outside
+            setTimeout(() => {
+                document.addEventListener('click', hideColorPickerOnOutsideClick);
+            }, 100);
+        }
+
+        function hideColorPickerOnOutsideClick(e) {
+            const popup = document.getElementById('colorPickerPopup');
+            if (!popup.contains(e.target) && e.target.id !== 'colorPickerPopup') {
+                popup.style.display = 'none';
+                document.removeEventListener('click', hideColorPickerOnOutsideClick);
+                
+                // Save color if changed
+                if (currentColorTarget) {
+                    const tagId = currentColorTarget.dataset.tagId;
+                    const tagName = currentColorTarget.querySelector('.tag-name').textContent;
+                    const newColor = currentColorTarget.dataset.tagColor;
+                    
+                    fetch(`/tags/${tagId}/update`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({name: tagName, color: newColor})
+                    }).catch(() => {
+                        // Revert on fail (optional)
+                    });
+                    currentColorTarget = null;
+                }
+            }
+        }
+
+        // Enter in contenteditable
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.classList.contains('tag-name')) {
+                e.preventDefault();
+                const saveBtn = e.target.closest('.tag-item').querySelector('.save-btn');
+                if (saveBtn) saveBtn.click();
+            }
+        });
+
+        // Initialize tag color data attributes
+        document.querySelectorAll('.tag-item').forEach(item => {
+            const preview = item.querySelector('.tag-color-preview');
+            // Extract hex from background-color (simplified: assume style is set as inline hex)
+            // Better: pass color from Jinja
+            // We'll use a fallback if not set
+            const bgColor = preview.style.backgroundColor;
+            if (!item.dataset.tagColor) {
+                // Try to get from computed style (advanced), or just use default
+                item.dataset.tagColor = "#3498db";
+            }
+        });
+    </script>
+</body>
+</html>

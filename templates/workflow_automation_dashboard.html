@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+        table {
+            margin: 10px;
+        }
+
+        th {
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        .platform-section {
+            position: absolute;
+            top: 60px;
+            left: 250px;
+        }
+
+    </style>
+
+</head>
+<body>
+<body>
+    <h1>Workflow Automation</h1>
+
+
+
+    <div class="task-section">
+        
+        <h2>Task Flow</h2>
+
+        <form method="post">
+            <label for="project_name">Tasks</label><br>
+            <select>
+                <option value='in-progress'>Crawl all profiles</option>
+                <option value='in-progress'>Visit Instagram</option>
+                <option value='pending'>Post from Social Queue</option>
+            </select><br><br>
+
+            
+            <label for="bid_price">Reoccurance</label><br><br>
+            <label for="bid_price">Frequency</label><br>
+            <select>
+                <option value='in-progress'>Once a day</option>
+                <option value='pending'>Once a month</option>
+                <option value='pending'>Once a year</option>            
+            </select><br><br>
+
+            <label for="bid_price">Time</label><br>
+            <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+
+
+            <!-- <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked> -->
+            <!-- <label for="use_random_id">Use Random ID</label><br><br> -->
+
+            <!-- <label for="service_id">Project ID:</label><br> -->
+            <!-- <input type="text" id="service_id" name="service_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br> -->
+
+            <input type="submit" value="Add Task">
+        </form>
+    </div>
+
+    <div class="platform-section">
+        
+        <h2>Platforms</h2>
+
+        <form method="post">
+            <label for="project_name">Platform</label><br>
+            <select>
+                <option value='in-progress'>Instagram</option>
+                <option value='in-progress'>Reddit</option>
+                <option value='in-progress'>Shopify</option>
+                <option value='in-progress'>Facebook</option>
+                <option value='in-progress'>Instagram</option>
+                <option value='in-progress'>Etsy</option>
+                <option value='in-progress'>Ebay</option>
+            </select><br><br>
+
+            <label for="bid_price">Username or Email</label><br>
+            <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+
+            <label for="bid_price">Password</label><br>
+            <input type='text' id="bid_price" name="bid_price"></input><br><br>        
+
+
+            <!-- <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked> -->
+            <!-- <label for="use_random_id">Use Random ID</label><br><br> -->
+
+            <!-- <label for="service_id">Project ID:</label><br> -->
+            <!-- <input type="text" id="service_id" name="service_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br> -->
+
+            <input type="submit" value="Add Platform Login">
+        </form>
+    </div>
+
+
+    <div class="list-section">
+        
+        <h2>Task Queue</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task ID</th>
+                    <th>Task Name</th>
+                    <th>Description</th>
+                    <th>Occurance</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense[3] }}</td>
+                    <td>{{ expense[1] }}</td>
+                    <td>{{ expense[2] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Platform Logins</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Account Name</th>
+                <th>Platform</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <!-- <td>{{ product[3] }}</td> -->
+                <!-- <td>{{ product[1] }}</td> -->
+                <!-- <td>{{ product[2] }}</td> -->
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    
+
+
+
+
+</body>
+</html>

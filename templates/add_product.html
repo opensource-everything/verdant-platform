@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            display: flex;
+            gap: 20px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        .section {
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        label {
+            font-size: 18px;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea, select {
+            font-size: 18px;
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        .submit-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form method="post" class="section">
+            <h1>Add Product</h1>
+
+            <label for="product_name">Product Name</label>
+            <input type="text" id="product_name" name="product_name" required>
+
+            <label for="cost">Cost</label>
+            <input type="number" id="cost" name="cost" step="0.01" min="0" required>
+
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" step="0.01" min="0" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category">
+
+            <label for="supplier">Supplier</label>
+            <input type="text" id="supplier" name="supplier">
+
+            <label for="sku">SKU</label>
+            <input type="text" id="sku" name="sku">
+
+            <label for="date_added">Date Added</label>
+            <input type="date" id="date_added" name="date_added">
+
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="discontinued">Discontinued</option>
+            </select>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="use_random_id" name="use_random_id" value="1" {% if use_random_id %}checked{% endif %}>
+                <label for="use_random_id">Use Random ID</label>
+            </div>
+
+            <label for="product_id">Product ID</label>
+            <input type="text" id="product_id" name="product_id" 
+                {% if use_random_id %}readonly{% endif %} 
+                value="{{ product_id | default('') }}">
+
+            <input type="submit" value="Submit" class="submit-btn">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation Tabs</title>
+<style>
+
+  *
+  {
+    color: white;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar {
+    height: 100%;
+    width: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    padding-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar a {
+    display: block;
+    padding: 16px;
+    text-decoration: none;
+    color: white;
+  }
+  .content {
+    margin-left: 100px;
+    padding: 20px;
+  }
+  .switch {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    background-color: #ccc;
+    border-radius: 17px;
+    transition: background-color 0.3s ease;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 17px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #666;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+    background-color: white;
+  }
+
+  .tags p {
+    color: #2196F3;
+  }
+
+  body {
+    background-color: #0c0c0c;
+  }
+
+  .tags p {
+    margin: 5px;
+    padding: 2px;
+  }
+
+  .tags {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .new-tag p {
+    color: #2196F3;
+  }
+
+  .new-tag {
+    border: solid;
+    border-radius: .5em;
+    border-width: 1px;
+    border-color: #2196F3;
+  }
+
+.thumbnail {
+    border: solid;
+    border-radius: .5em;
+    border-width:1px;
+    width: 200px;
+    height: 200px;
+}
+
+.files-section {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    top: 10px;
+    gap: 10px;
+
+    display: none;
+}
+
+.folder-icon img {
+    filter: invert(70%);
+    width: 100px;
+    height: 100px;
+
+}
+
+.folder-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.folder-icon {
+    border: solid;
+    border-radius: .5em;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0);
+    margin: 10px;
+    padding: 10px;
+}
+
+.file-card {
+    border: solid;
+    border-radius: .5em;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0);
+    margin: 10px;
+    padding: 10px;
+}
+
+.folder-icon:hover {
+    border: solid;
+    border-radius: .5em;
+    border-width: 1px;
+    border-color: #2196F3;
+}
+
+.file-card:hover {
+    border: solid;
+    border-radius: .5em;
+    border-width: 1px;
+    border-color: #2196F3;
+}
+
+.search-bar {
+    width: 500px;
+    height: 36px;
+    border: solid;
+    border-radius: 2em;
+    border-width: 1px;
+    border-color: #353636;
+}
+
+table {
+    margin: 10px;
+}
+
+th {
+    padding: 15px;
+    font-size: 12px;
+}
+
+td {
+    padding: 10px;
+    margin: 10px;
+}
+
+.table-header {
+    display: flex;
+
+}
+
+
+a {
+    font-size: 10px;
+    font-weight: 2px;
+    text-decoration: none;
+    text-align: center;
+    height: 10px;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 0.4em;
+    border-style: solid;
+    border-width: 0.1em;
+    background-color: #f44336;
+    display: inline-block;
+    padding: 6px;
+  }
+
+
+.folder-table {
+  position: absolute;
+  top: 10px;
+  left: 100px;
+  z-index: 1;
+
+}
+
+  .active-folder-table {
+    position: absolute;
+    top: 190px;
+    left: 100px;
+    z-index: 1;
+
+}
+
+
+      </style>
+</head>
+<body>
+
+
+<!-- 
+-->
+<div class="sidebar">
+  <a href="{{ url_for('index') }}">Home</a>
+  <a href="#folders">Folders</a>
+  <a href="#tags">Tags</a>
+
+</div> 
+
+
+<div class="folder-table">
+    <div class="table-header">
+        <h3>Favorite Folders</h3>
+        <a href="{{ url_for('add_folder') }}">Add Folder +</a><br>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Folder ID</th>
+                <th>Folder Name</th>
+                <th>Folder Path</th>
+                <th>Category</th>
+                <th>Date Created</th>
+                <th>Date Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for folder in folders %}
+                <td>{{ folder[1] }}</td>
+                <td>{{ folder[2] }}</td>
+                <td>{{ folder[3] }}</td>
+                <td>{{ folder[4] }}</td>
+                <td>{{ folder[5] }}</td>
+                <td>{{ folder[6] }}</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<div class="active-folder-table">
+    <div class="table-header">
+        <h3>Active Folders</h3>
+        <a href="{{ url_for('add_folder') }}">Add Folder +</a><br>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Folder ID</th>
+                <th>Folder Name</th>
+                <th>Folder Path</th>
+                <th>Category</th>
+                <th>Date Created</th>
+                <th>Date Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+            <tr>
+                <td>AEI49345G</td>
+                <td>Mexico Property</td>
+                <td>Rental</td>
+                <td>4048 Sunset Dr</td>
+                <td>Karen</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+  <!-- Your content goes here -->
+
+<!-- 
+
+<div class="content">
+
+  <h3>Tags</h3>
+  <div class="tag-section">
+      <div class="tags">
+        <p>favorite</p>
+        <p>to-upscale</p>
+        <a href="{{ url_for('add_service') }}">New Tag +</a>
+
+        <div class="new-tag">
+          <p>new tag +</p>
+        </div>
+
+
+
+      </div>
+  </div>
+
+  <div class="search-bar">
+  </div>
+
+  <div class="breadcrumb-banner">
+      <h2>Home</h2>
+  </div>
+
+
+  <h3>Folders</h3>
+  <a href="{{ url_for('add_service') }}">Add Folder</a>
+
+
+  <div class="folder-section">
+      
+      <div class="folder-icon">
+        <img src="folder.svg" alt="">
+        <div class="folder-name">
+          <p>School work 2020</p>
+        </div>
+      </div>
+
+      <div class="folder-icon">
+        <img src="folder.svg" alt="">
+        <div class="folder-name">
+          <p>School work 2020</p>
+        </div>
+      </div>
+      <div class="folder-icon">
+        <img src="folder.svg" alt="">
+        <div class="folder-name">
+          <p>School work 2020</p>
+        </div>
+      </div>
+
+  </div>
+
+ -->
+  <div class="files-section">
+    <h3>Files</h3>
+
+      <!-- This section is for loop -->
+      <div class="file-card">
+          <div class="thumbnail">
+            <img src="" alt="">
+          </div>
+          <div class="filename">
+            <p>1248592375.jpg</p>
+          </div>
+      </div>
+      <div class="file-card">
+          <div class="thumbnail">
+            <img src="" alt="">
+          </div>
+          <div class="filename">
+            <p>1248592375.jpg</p>
+          </div>
+      </div>
+      <div class="file-card">
+          <div class="thumbnail">
+            <img src="" alt="">
+          </div>
+          <div class="filename">
+            <p>1248592375.jpg</p>
+          </div>
+      </div>
+      <div class="file-card">
+          <div class="thumbnail">
+            <img src="" alt="">
+          </div>
+          <div class="filename">
+            <p>1248592375.jpg</p>
+          </div>
+      </div>
+
+  </div>
+  
+</div>
+
+<label class="switch">
+  <input type="checkbox" id="themeSwitch">
+  <span class="slider"></span>
+</label>
+
+<script>
+  const switchButton = document.getElementById('themeSwitch');
+  const body = document.querySelector('body');
+  const sidebar = document.querySelector('.sidebar');
+
+  switchButton.addEventListener('change', function() {
+    if (this.checked) {
+      // Dark mode
+      body.style.backgroundColor = '#111';
+      sidebar.style.backgroundColor = '#555';
+    } else {
+      // Light mode
+      body.style.backgroundColor = '#f1f1f1';
+      sidebar.style.backgroundColor = '#333';
+    }
+  });
+</script>
+
+</body>
+</html>

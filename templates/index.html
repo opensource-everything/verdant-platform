@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verdant – Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* ---------- ROOT THEME ---------- */
+    :root{
+      --bg:#121212;
+      --surface:#1e1e1e;
+      --primary:#bb86fc;
+      --secondary:#03dac5;
+      --text:#e1e1e1;
+      --muted:#777;
+      --danger:#cf6679;
+      --radius:8px;
+      --shadow:0 8px 22px rgba(0,0,0,.45);
+      --font:'Segoe UI',Arial,sans-serif;
+    }
+    *{box-sizing:border-box; margin:0; padding:0;}
+    body{
+      font-family:var(--font);
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
+      line-height:1.5;
+    }
+    a{color:var(--primary); text-decoration:none;}
+    button{font-family:inherit; border:none; background:none; cursor:pointer;}
+    /* ---------- SIDEBAR ---------- */
+    .sidebar{
+      width:220px;
+      background:var(--surface);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow-y:auto;
+    }
+    .sidebar .logo{font-size:1.5rem; font-weight:700; margin-bottom:10px;}
+    .sidebar a{
+      padding:10px 14px;
+      border-radius:var(--radius);
+      transition:background .2s;
+    }
+    .sidebar a:hover{background:#2c2c2c;}
+    /* ---------- MAIN ---------- */
+    main{
+      flex:1;
+      padding:30px;
+      display:flex;
+      flex-direction:column;
+      gap:40px;
+    }
+    /* ---------- ACCORDION ---------- */
+    .accordion{
+      width:100%;
+      background:#222;
+      color:var(--text);
+      padding:14px 18px;
+      border-radius:var(--radius);
+      text-align:left;
+      font-size:2.05rem;
+      transition:background .2s;
+    }
+    .accordion:hover{background:#282828;}
+    .panel{
+      display:none;
+      padding:10px 18px 20px;
+    }
+    /* ---------- TABLE ---------- */
+    .table-wrap{
+      overflow-x:auto;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:var(--surface);
+    }
+    th,td{padding:12px 15px; text-align:left;}
+    th{background:#252525; color:var(--muted);}
+    tr{border-bottom:1px solid #333;}
+    /* ---------- BTN ---------- */
+    .add-btn{
+      display:inline-block;
+      background:var(--primary);
+      color:#000;
+      padding:8px 16px;
+      border-radius:var(--radius);
+      font-size:.85rem;
+      font-weight:600;
+      margin:10px 0 20px;
+    }
+    .add-btn:hover{filter:brightness(1.15);}
+    /* ---------- MODAL ---------- */
+    .modal-overlay{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.65);
+      display:none; align-items:flex-start; justify-content:center;
+      padding-top:80px;
+      z-index:9999;
+    }
+    .modal-box{
+      background:var(--surface);
+      width:90%; max-width:480px;
+      border-radius:var(--radius);
+      padding:25px;
+      box-shadow:var(--shadow);
+    }
+    .modal-close{float:right; font-size:1.4rem; color:var(--muted); cursor:pointer;}
+    #modalInputs{display:flex; flex-direction:column; gap:12px; margin:15px 0;}
+    #modalInputs input, #modalInputs select, #modalInputs textarea{
+      width:100%;
+      padding:10px;
+      border:1px solid #444;
+      border-radius:var(--radius);
+      background:#181818;
+      color:var(--text);
+    }
+    /* ---------- SETTINGS ---------- */
+    .settings-form{display:flex; flex-direction:column; gap:10px; background:var(--surface); padding:20px; border-radius:var(--radius);}
+  </style>
+</head>
+<body>
+
+<!-- ---------- SIDEBAR ---------- -->
+<aside class="sidebar">
+  <div class="logo">Verdant</div>
+  <a href="{{ url_for('projects_dashboard') }}">Projects Dashboard</a>
+  <a href="{{ url_for('personal_ledger') }}">Account</a>
+  <a href="{{ url_for('CMS_dashboard') }}">Messages</a>
+  <a href="{{ url_for('CMS_dashboard') }}">Fleet</a>
+  <a href="{{ url_for('CMS_dashboard') }}">Projects</a>
+  <a href="{{ url_for('personal_ledger') }}">Ledger</a>
+  <a href="{{ url_for('file_tracker') }}">Profiles</a>
+  <a href="{{ url_for('add_service') }}">Job Trackers</a>
+  <a href="{{ url_for('workflow_automation') }}">Workflow Automation</a>
+  <a href="{{ url_for('folders_dashboard') }}">Job Listings</a>
+  <a href="{{ url_for('media') }}">Media Gallery</a>
+  <a href="{{ url_for('media') }}">Posts</a>
+  <a href="{{ url_for('tagging') }}">Tags</a>
+  <a href="{{ url_for('folders_dashboard') }}">Folders</a>
+  <a href="{{ url_for('CMS_dashboard') }}">CMS</a>
+  <a href="{{ url_for('CMS_dashboard') }}">CRM</a>
+  <a href="{{ url_for('folders_dashboard') }}">Settings</a>
+</aside>
+
+<!-- ---------- MAIN ---------- -->
+<main>
+
+  <!-- ===== OPERATIONS ===== -->
+  <section>
+    <button class="accordion">Meta Operations</button>
+    <div class="panel">
+      <a class="add-btn" href="{{ url_for('add_service') }}">Start PostFusion</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Start Automation Agent Tasks</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Start Backup Services</a>
+    </div>
+
+    <button class="accordion">Folder Ops</button>
+    <div class="panel">
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_touch_designer()">Log folder in clipboard</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_touch_designer()">ZIP folders (2 GB chunks)</a>
+    </div>
+
+    <button class="accordion">Program Launcher</button>
+    <div class="panel">
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_blender_four_three()">Blender 4.3</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_blender_four_two()">Blender 4.2</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_touch_designer()">Touch Designer</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_after_effects()">After Effects</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_photoshop()">Photoshop</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_video_ai()">Topaz Video AI</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_photo_ai()">Topaz Image AI</a>
+    </div>
+
+    <button class="accordion">Stable Diffusion</button>
+    <div class="panel">
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_stable_diffusion()">Launch Stable Diffusion</a>
+      <a class="add-btn" href="javascript:void(0)" onclick="launch_easy_diffusion()">Easy Diffusion Inpainting</a>
+    </div>
+
+    <button class="accordion">Crawlers</button>
+    <div class="panel">
+      <a class="add-btn" href="{{ url_for('add_service') }}">Crawl Instagram Profiles</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Crawl 4Chan</a>
+    </div>
+
+    <button class="accordion">Workflow Automation</button>
+    <div class="panel">
+      <a class="add-btn" href="{{ url_for('add_service') }}">Download clipboard URL</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Analyse clipboard URL</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Save folder to text</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Add clipboard folder to backups</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Organise Downloads</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Batch image-crop borders</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Zip file contents</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">File contents → txt</a>
+    </div>
+
+    <button class="accordion">Video Analyzation</button>
+    <div class="panel">
+      <a class="add-btn" href="{{ url_for('add_service') }}">Analyse folders</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Analyse video</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Detect bodies</a>
+      <a class="add-btn" href="{{ url_for('add_service') }}">Detect faces</a>
+    </div>
+  </section>
+
+  <!-- ===== SETTINGS ===== -->
+  <section>
+    <form class="settings-form" method="post">
+      <label><input type="checkbox" checked> Start services at program start</label>
+      <label><input type="checkbox" checked> Run services continuously</label>
+      <label><input type="checkbox" checked> Reboot services if shutdown</label>
+      <label><input type="checkbox" checked> Debug mode (continuous logging)</label>
+    </form>
+  </section>
+
+  <!-- ===== TABLES ===== -->
+<!-- ===== TABLES ===== -->
+<section>
+
+  <!-- Passwords -->
+  <h3>Passwords</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="password" data-action="{{ url_for('add_password') }}">Add Password</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Profile ID</th><th>Email</th><th>Website</th><th>Username</th><th>Status</th><th>Passphrase</th><th>Password</th></tr>
+      </thead>
+      <tbody>
+        {% for p in profiles %}
+        <tr><td>{{ p[1] }}</td><td>{{ p[2] }}</td><td>{{ p[3] }}</td><td>{{ p[4] }}</td><td>-</td><td>-</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Profiles -->
+  <h3>Profiles</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="profile" data-action="{{ url_for('add_profile') }}">Add Profile</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Profile ID</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Status</th><th>Role</th><th>Password</th><th>Media</th><th>Social URLs</th><th>Jobs</th></tr>
+      </thead>
+      <tbody>
+        {% for p in profiles %}
+        <tr><td>{{ p[1] }}</td><td>{{ p[2] }}</td><td>{{ p[3] }}</td><td>{{ p[4] }}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Users -->
+  <h3>Users</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="user" data-action="{{ url_for('add_user') }}">Add User</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Password</th><th>Platform</th><th>Status</th><th>Folders</th><th>Files</th><th>Active Tasks</th><th>Role</th><th>Media</th><th>Social URLs</th><th>Automation Jobs</th></tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr><td>{{ u[1] }}</td><td>{{ u[2] }}</td><td>{{ u[3] }}</td><td>{{ u[4] }}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Logins -->
+  <h3>Logins</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="login" data-action="{{ url_for('add_login') }}">Add Login</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Login ID</th><th>Owner Name</th><th>Username</th><th>Email</th><th>Status</th><th>Password</th><th>Platform URL</th><th>Task Queue</th></tr>
+      </thead>
+      <tbody>
+        {% for l in logins %}
+        <tr><td>{{ l[1] }}</td><td>{{ l[2] }}</td><td>{{ l[3] }}</td><td>{{ l[4] }}</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Orders -->
+  <h3>Orders</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="order" data-action="{{ url_for('add_order') }}">Add Order</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Order ID</th><th>Customer ID</th><th>Item ID</th><th>Qty</th><th>SubTotal</th><th>Total</th><th>Status</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for o in orders %}
+        <tr><td>{{ o[1] }}</td><td>{{ o[2] }}</td><td>{{ o[3] }}</td><td>{{ o[4] }}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Expenses -->
+  <h3>Expenses</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="expense" data-action="{{ url_for('add_expense') }}">Add Expense</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item ID</th><th>Expense Category</th><th>Date Purchased</th><th>Price</th><th>Automations</th></tr>
+      </thead>
+      <tbody>
+        {% for e in expenses %}
+        <tr><td>{{ e[1] }}</td><td>{{ e[2] }}</td><td>{{ e[3] }}</td><td>{{ e[4] }}</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Captured URLs -->
+  <h3>Captured URLs</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="url" data-action="{{ url_for('add_url') }}">Add URL</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>URL</th><th>Media</th><th>Platform</th><th>Status</th><th>Automations</th></tr>
+      </thead>
+      <tbody>
+        {% for u in urls %}
+        <tr><td>{{ u[1] }}</td><td>{{ u[2] }}</td><td>{{ u[3] }}</td><td>{{ u[4] }}</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Post Schedule -->
+  <h3>Post Schedule</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="post" data-action="{{ url_for('add_post') }}">Add Post</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Caption</th><th>Media</th><th>Platform</th><th>Status</th><th>Schedule</th></tr>
+      </thead>
+      <tbody>
+        {% for p in posts %}
+        <tr><td>{{ p[1] }}</td><td>{{ p[2] }}</td><td>{{ p[3] }}</td><td>{{ p[4] }}</td><td>-</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Automation Agent Queue -->
+  <h3>Automation Agent Queue</h3>
+  <a class="add-btn" href="{{ url_for('add_service') }}">Add Agent Task</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Task</th><th>Screen Captures</th><th>Platform</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for a in agents %}
+        <tr><td>{{ a[1] }}</td><td>{{ a[2] }}</td><td>{{ a[3] }}</td><td>{{ a[4] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Categories -->
+  <h3>Categories</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="category" data-action="{{ url_for('add_category') }}">Add Category</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Category ID</th><th>Category Name</th><th>Description</th><th>Parent Category ID</th><th>Is Active</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for c in categories %}
+        <tr><td>{{ c[1] }}</td><td>{{ c[2] }}</td><td>{{ c[3] }}</td><td>{{ c[4] }}</td><td>{{ c[5] }}</td><td>{{ c[6] }}</td><td>{{ c[7] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Clients -->
+  <h3>Clients</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="client" data-action="{{ url_for('add_client') }}">Add Client</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Client ID</th><th>Client Name</th><th>Address ID</th><th>Phone Number</th><th>Email</th><th>Description</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for c in clients %}
+        <tr><td>{{ c[1] }}</td><td>{{ c[2] }}</td><td>{{ c[3] }}</td><td>{{ c[4] }}</td><td>{{ c[5] }}</td><td>{{ c[6] }}</td><td>{{ c[7] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Properties -->
+  <h3>Properties</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="property" data-action="{{ url_for('add_property') }}">Add Property</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Property ID</th><th>Property Name</th><th>Property Type</th><th>Address</th><th>Owner</th><th>Contact</th><th>Finance Status</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for p in properties %}
+        <tr><td>{{ p[1] }}</td><td>{{ p[2] }}</td><td>{{ p[3] }}</td><td>{{ p[4] }}</td><td>{{ p[5] }}</td><td>{{ p[6] }}</td><td>{{ p[7] }}</td><td>{{ p[8] }}</td><td>{{ p[9] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Projects -->
+  <h3>Projects</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="project" data-action="{{ url_for('add_project_route') }}">Add Project</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Project ID</th><th>Project Name</th><th>Project Type</th><th>Services</th><th>Property Owner</th><th>Property Address</th><th>Contact</th><th>Contract</th><th>Bid Price</th><th>Material Cost</th><th>Labor Cost</th><th>Start Date</th><th>Due Date</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for p in projects %}
+        <tr><td>{{ p[1] }}</td><td>{{ p[2] }}</td><td>{{ p[3] }}</td><td>{{ p[4] }}</td><td>{{ p[5] }}</td><td>{{ p[6] }}</td><td>{{ p[7] }}</td><td>{{ p[8] }}</td><td>{{ p[9] }}</td><td>{{ p[10] }}</td><td>{{ p[11] }}</td><td>{{ p[12] }}</td><td>{{ p[13] }}</td><td>{{ p[14] }}</td><td>{{ p[15] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Teams -->
+  <h3>Teams</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="team" data-action="{{ url_for('add_team') }}">Add Team</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Team ID</th><th>Team Name</th><th>Team Type</th><th>Created By</th><th>Date Created</th><th>Date Updated</th><th>Team Members</th></tr>
+      </thead>
+      <tbody>
+        {% for t in teams %}
+        <tr><td>{{ t[1] }}</td><td>{{ t[2] }}</td><td>{{ t[3] }}</td><td>{{ t[4] }}</td><td>{{ t[5] }}</td><td>{{ t[6] }}</td><td>{{ t[7] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Services -->
+  <h3>Services</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="service" data-action="{{ url_for('add_service') }}">Add Service</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Service ID</th><th>Service Name</th><th>Service Type</th><th>Description</th><th>Category</th><th>Price</th></tr>
+      </thead>
+      <tbody>
+        {% for s in services %}
+        <tr><td>{{ s[1] }}</td><td>{{ s[2] }}</td><td>{{ s[3] }}</td><td>{{ s[4] }}</td><td>{{ s[5] }}</td><td>{{ s[6] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Products -->
+  <h3>Products</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="product" data-action="{{ url_for('add_product') }}">Add Product</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Product ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Cost</th></tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        <tr><td>{{ p[1] }}</td><td>{{ p[2] }}</td><td>{{ p[3] }}</td><td>{{ p[4] }}</td><td>{{ p[5] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Suppliers -->
+  <h3>Suppliers</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="supplier" data-action="{{ url_for('add_supplier') }}">Add Supplier</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Vendor ID</th><th>Vendor Name</th><th>Currency</th><th>Shipping Address</th><th>Email</th><th>Contact Person</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for s in suppliers %}
+        <tr><td>{{ s[1] }}</td><td>{{ s[2] }}</td><td>{{ s[3] }}</td><td>{{ s[4] }}</td><td>{{ s[5] }}</td><td>{{ s[6] }}</td><td>{{ s[7] }}</td><td>{{ s[8] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Transactions -->
+  <h3>Transactions</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="transaction" data-action="{{ url_for('add_transaction') }}">Add Transaction</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Transaction ID</th><th>Transaction Title</th><th>Transaction Type</th><th>Description</th><th>Currency Code</th><th>Sub Total</th><th>Total</th><th>Discounts</th><th>Issued By</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for t in transactions %}
+        <tr><td>{{ t[1] }}</td><td>{{ t[2] }}</td><td>{{ t[3] }}</td><td>{{ t[4] }}</td><td>{{ t[5] }}</td><td>{{ t[6] }}</td><td>{{ t[7] }}</td><td>{{ t[8] }}</td><td>{{ t[9] }}</td><td>{{ t[10] }}</td><td>{{ t[11] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tasks -->
+  <h3>Tasks</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="task" data-action="{{ url_for('add_task') }}">Add Task</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Task ID</th><th>Task Name</th><th>Description</th><th>Category</th><th>Priority</th><th>Assigned To</th><th>Created By</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        {% for t in tasks %}
+        <tr><td>{{ t[1] }}</td><td>{{ t[2] }}</td><td>{{ t[3] }}</td><td>{{ t[4] }}</td><td>{{ t[5] }}</td><td>{{ t[6] }}</td><td>{{ t[7] }}</td><td>{{ t[8] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tags -->
+  <h3>Tags</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="tag" data-action="{{ url_for('add_tag') }}">Add Tag</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Tag ID</th><th>Tag Name</th><th>Description</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for t in tags %}
+        <tr><td>{{ t[1] }}</td><td>{{ t[2] }}</td><td>{{ t[3] }}</td><td>{{ t[4] }}</td><td>{{ t[5] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Ledgers -->
+  <h3>Ledgers</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="ledger" data-action="{{ url_for('add_ledger') }}">Add Ledger</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Ledger ID</th><th>Ledger Name</th><th>Owner</th><th>Contact</th><th>Contracts</th><th>Finance Status</th><th>Date Created</th><th>Date Updated</th></tr>
+      </thead>
+      <tbody>
+        {% for l in ledgers %}
+        <tr><td>{{ l[1] }}</td><td>{{ l[2] }}</td><td>{{ l[3] }}</td><td>{{ l[4] }}</td><td>{{ l[5] }}</td><td>{{ l[6] }}</td><td>{{ l[7] }}</td><td>{{ l[8] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Employees -->
+  <h3>Employees</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="employee" data-action="{{ url_for('add_employee') }}">Add Employee</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Employee ID</th><th>Employee Name</th><th>Role</th><th>Salary</th><th>Hire Date</th><th>Metadata</th></tr>
+      </thead>
+      <tbody>
+        {% for e in employees %}
+        <tr><td>{{ e[1] }}</td><td>{{ e[2] }}</td><td>{{ e[3] }}</td><td>{{ e[4] }}</td><td>{{ e[5] }}</td><td>{{ e[6] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Schedules -->
+  <h3>Schedules</h3>
+  <a class="add-btn" href="javascript:void(0)" data-modal="schedule" data-action="{{ url_for('add_schedule') }}">Add Shift</a>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Schedule ID</th><th>Employee ID</th><th>Employee Name</th><th>Shift Date</th><th>Start Time</th><th>End Time</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        {% for s in schedules %}
+        <tr><td>{{ s[1] }}</td><td>{{ s[2] }}</td><td>{{ s[3] }}</td><td>{{ s[4] }}</td><td>{{ s[5] }}</td><td>{{ s[6] }}</td><td>{{ s[7] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</section>
+</main>
+
+<!-- ===== MODAL ===== -->
+<div id="addModal" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close">&times;</span>
+    <h3 id="modalTitle">Add Item</h3>
+    <form id="modalForm" method="post">
+      <div id="modalInputs"></div>
+      <button type="submit" class="add-btn">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+/* ---------- ACCORDION ---------- */
+document.querySelectorAll('.accordion').forEach(acc=>{
+  acc.addEventListener('click',()=>{
+    acc.classList.toggle('active');
+    const panel=acc.nextElementSibling;
+    panel.style.display= panel.style.display==='block' ? 'none':'block';
+  });
+});
+
+/* ---------- MODAL ---------- */
+const modal   = document.getElementById('addModal');
+const mTitle  = document.getElementById('modalTitle');
+const mForm   = document.getElementById('modalForm');
+const mInputs = document.getElementById('modalInputs');
+const mClose  = document.querySelector('.modal-close');
+
+const templates={
+  password:{
+    title:'Add Password',
+    fields:`<label>Email    <input name="email"    type="email"></label>
+            <label>Website  <input name="website"  type="text"></label>
+            <label>Username <input name="username" type="text"></label>
+            <label>Password <input name="password" type="password"></label>`
+  },
+  profile:{
+    title:'Add Profile',
+    fields:`<label>First Name <input name="first_name"></label>
+            <label>Last Name  <input name="last_name"></label>
+            <label>Username   <input name="username"></label>`
+  },
+  user:{
+    title:'Add User',
+    fields:`<label>First Name <input name="first_name"></label>
+            <label>Last Name  <input name="last_name"></label>
+            <label>Username   <input name="username"></label>
+            <label>Password   <input name="password" type="password"></label>`
+  },
+  login:{
+    title:'Add Login',
+    fields:`<label>Owner Name <input name="owner_name"></label>
+            <label>Username   <input name="username"></label>
+            <label>Email      <input name="email" type="email"></label>
+            <label>Password   <input name="password" type="password"></label>
+            <label>Platform URL<input name="platform_url"></label>`
+  },
+  order:{
+    title:'Add Order',
+    fields:`<label>Customer ID <input name="customer_id"></label>
+            <label>Item ID     <input name="item_id"></label>
+            <label>Quantity    <input name="qty" type="number"></label>`
+  },
+  category:{
+    title:'Add Category',
+    fields:`<label>Category Name <input name="category_name"></label>
+            <label>Description   <textarea name="description"></textarea></label>`
+  },
+  client:{
+    title:'Add Client',
+    fields:`<label>Client Name <input name="client_name"></label>
+            <label>Phone       <input name="phone"></label>
+            <label>Email       <input name="email" type="email"></label>
+            <label>Address     <textarea name="address"></textarea></label>`
+  },
+  property:{
+    title:'Add Property',
+    fields:`<label>Property Name <input name="property_name"></label>
+            <label>Type          <input name="property_type"></label>
+            <label>Address       <textarea name="address"></textarea></label>`
+  },
+  project:{
+    title:'Add Project',
+    fields:`<label>Project Name <input name="project_name"></label>
+            <label>Type         <input name="project_type"></label>
+            <label>Bid Price    <input name="bid_price" type="number" step="0.01"></label>`
+  },
+  service:{
+    title:'Add Service',
+    fields:`<label>Service Name <input name="service_name"></label>
+            <label>Type         <input name="service_type"></label>
+            <label>Price        <input name="price" type="number" step="0.01"></label>`
+  },
+  product:{
+    title:'Add Product',
+    fields:`<label>Product Name <input name="product_name"></label>
+            <label>Description  <textarea name="description"></textarea></label>
+            <label>Price        <input name="price" type="number" step="0.01"></label>`
+  },
+  tag:{
+    title:'Add Tag',
+    fields:`<label>Tag Name  <input name="tag_name"></label>
+            <label>Description<textarea name="description"></textarea></label>`
+  },
+  task:{
+    title:'Add Task',
+    fields:`<label>Task Name <input name="task_name"></label>
+            <label>Description<textarea name="description"></textarea></label>
+            <label>Priority
+              <select name="priority"><option>Low</option><option>Medium</option><option>High</option></select>
+            </label>`
+  }
+};
+
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.add-btn');
+  if(!btn||!btn.dataset.modal)return;
+  const t=templates[btn.dataset.modal];
+  if(!t)return;
+  mTitle.textContent=t.title;
+  mInputs.innerHTML=t.fields;
+  mForm.action=btn.dataset.action||'#';
+  modal.style.display='flex';
+  e.preventDefault();
+});
+mClose.onclick=()=>modal.style.display='none';
+window.onclick=e=>{if(e.target==modal)modal.style.display='none'};
+
+/* ---------- APP LAUNCHERS ---------- */
+function launch_stable_diffusion(){
+  fetch('/launch_stable_diffusion',{method:'POST'}).then(r=>r.json()).then(d=>alert(d.message)).catch(a=>alert('Error'));
+}
+function launch_easy_diffusion(){
+  fetch('/launch_easy_diffusion',{method:'POST'}).then(r=>r.json()).then(d=>alert(d.message)).catch(a=>alert('Error'));
+}
+function launch_photo_ai(){
+  fetch('/launch_photo_ai',{method:'POST'}).then(r=>r.json()).then(d=>alert(d.message)).catch(a=>alert('Error'));
+}
+/* add the rest launchers if needed */
+</script>
+</body>
+</html>

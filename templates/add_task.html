@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Add Task</h1>
+    <form method="post">
+        <label for="task_name">Task Name</label><br>
+        <input type="text" id="task_name" name="task_name"><br><br>
+
+        <label for="status">Status</label><br>
+        <select name='status' id='status'>
+            <option value='in-progress'>In Progress</option>
+            <option value='pending'>Pending Approval</option>
+            <option value='done'>Done</option>
+        </select><br><br>
+        
+        <label for="description">Description</label><br>
+        <textarea id="description" name="description"></textarea><br><br>
+
+
+
+        <label for="due_date">Due Date</label><br>
+        <input type='text' id="due_date" name="due_date"></input><br><br>
+
+
+        <label for="bid_price">Created By</label><br>
+        <!-- <input type='text' id="bid_price" name="bid_price"></input><br><br>         -->
+        <select name='created_by' id='created_by'>
+            <option value='charlotte-smith'>Charlotte Smith</option>
+            <option value='john-smith-id'>John Smith</option>
+            <option value='pending'>Kevin Smith</option>
+        </select><br><br>
+
+        <label for="bid_price">Assigned To</label><br>
+        <!-- <input type='text' id="bid_price" name="bid_price"></input><br><br>         -->
+        <select name='assigned_to' id='assigned_to'>
+            <option value='in-progress'>Charlotte Smith</option>
+            <option value='pending'>John Smith</option>
+            <option value='pending'>Kevin Smith</option>
+        </select><br><br>
+
+
+
+        <input type="checkbox" id="use_random_id" name="use_random_id" value="1" checked>
+        <label for="use_random_id">Generate Random ID</label><br><br>
+        <!-- 
+
+        <label for="service_id">Project ID</label><br>
+        <input type="text" id="service_id" name="service_id" {% if use_random_id %}readonly{% endif %} value="{{ product_id }}"><br><br>
+         -->
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
